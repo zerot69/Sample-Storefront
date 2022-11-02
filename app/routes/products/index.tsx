@@ -1,51 +1,49 @@
 import { Link, useLoaderData } from "@remix-run/react";
-import { LoaderArgs } from "@remix-run/server-runtime";
-import { createServerClient } from "@supabase/auth-helpers-remix";
-import { json, redirect } from "@remix-run/node";
 
-export const loader = async ({ request }: LoaderArgs) => {
-  const response = new Response();
-
-  const supabaseClient = createServerClient(
-    process.env.SUPABASE_URL || "",
-    process.env.SUPABASE_ANON_KEY || "",
-    { request, response }
+export async function loader() {
+  const products = await fetch(
+    `https://635739669243cf412f94ec88.mockapi.io/Products`
   );
-  const { data, error } = await supabaseClient.from("products").select("*");
+  return await products.json();
+}
 
-  if (error) return json({ error }, { status: 403 });
-  return json({ data }, { status: 200 });
-};
 export default function ProductIndexPage() {
   const products = useLoaderData();
-  console.log(products);
+
   return (
-    <>
-      <div className="grid grid-cols-3 grid-rows-3 gap-4">
-        {products?.data?.map((data: any, idx: number) => {
-          return (
-            <div key={idx}>
+    <div className="mt-8 w-full">
+      <h1 className="p-8 text-5xl text-gray-800">Eco Store</h1>
+      <div className="mt-8 grid grid-cols-1 justify-items-center gap-6 px-4 md:grid-cols-2 md:px-12 lg:grid-cols-3 lg:px-6 xl:gap-6 xl:px-4 2xl:grid-cols-4 2xl:gap-6 2xl:px-24">
+        {products.map((product: any) => (
+          <div key={product.id}>
+            <section className="shadow:md w-80 overflow-hidden rounded-lg bg-white hover:shadow-lg">
               <Link
-                to={data.id}
-                className="flex flex-col items-center rounded-lg border bg-white shadow-md hover:bg-gray-100 dark:border-gray-700 dark:bg-gray-800 dark:hover:bg-gray-700 md:max-w-xl md:flex-row"
-              />
-              <img
-                className="h-96 w-full rounded-t-lg object-cover md:h-auto md:w-48 md:rounded-none md:rounded-l-lg"
-                src="/docs/images/blog/image-4.jpg"
-                alt=""
-              />
-              <div className="flex flex-col justify-between p-4 leading-normal">
-                <h5 className="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
-                  {data.name} {data.prices} ({data.currency})
-                </h5>
-                <p className="mb-3 font-normal text-gray-700 dark:text-gray-400">
-                  {data.description}
-                </p>
-              </div>
-            </div>
-          );
-        })}
+                to={`/products/product?id=${product.id}&name=${product.name}`}
+              >
+                <img
+                  className="h-80 w-80 object-cover object-center lg:h-80 lg:w-80"
+                  src={product.image}
+                  alt={product.shortDesc}
+                />
+                <div className="p-4">
+                  <h3 className="py-2 text-lg font-bold text-gray-700 hover:underline">
+                    {product.name}
+                  </h3>
+                  <p className="font-italic text-gray-700">
+                    {product.description}
+                  </p>
+                  <p className="py-2 text-center text-lg font-bold text-yellow-400">
+                    ${product.price}
+                  </p>
+                  <button className="my-2 flex w-full items-center justify-center rounded-lg border border-transparent bg-yellow-400 px-6 py-1 text-base font-medium text-white hover:bg-yellow-500 md:py-2 md:px-10 md:text-lg">
+                    Add to cart
+                  </button>
+                </div>
+              </Link>
+            </section>
+          </div>
+        ))}
       </div>
-    </>
+    </div>
   );
 }

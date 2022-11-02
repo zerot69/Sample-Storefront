@@ -10,15 +10,16 @@ import {
   useLoaderData,
 } from "@remix-run/react";
 
-import tailwindStylesheetUrl from "./styles/tailwind.css";
+import Layout from "./layouts";
 
+import tailwindStylesheetUrl from "./styles/tailwind.css";
 export const links: LinksFunction = () => {
   return [{ rel: "stylesheet", href: tailwindStylesheetUrl }];
 };
 
 export const meta: MetaFunction = () => ({
   charset: "utf-8",
-  title: "Remix Notes",
+  title: "Eco Store",
   viewport: "width=device-width,initial-scale=1",
 });
 
@@ -36,12 +37,8 @@ export default function App() {
   const { env } = useLoaderData();
 
   return (
-    <html lang="en" className="h-full">
-      <head>
-        <Meta />
-        <Links />
-      </head>
-      <body className="h-full">
+    <Document>
+      <Layout>
         <Outlet />
         <ScrollRestoration />
         <script
@@ -50,7 +47,37 @@ export default function App() {
           }}
         />
         <LiveReload />
+      </Layout>
+    </Document>
+  );
+}
+
+function Document({ children }: { children: any }) {
+  return (
+    <html
+      lang="en"
+      className="antialiased; bg-gray-100 font-sans text-gray-800"
+    >
+      <head>
+        <Meta />
+        <Links />
+      </head>
+      <body className="overflow-x-hidden; flex min-h-screen flex-col">
+        {children}
       </body>
     </html>
+  );
+}
+
+export function ErrorBoundary({ error }: { error: any }) {
+  return (
+    <Document>
+      <Layout>
+        <div className="text-red-500">
+          <h1>Gratz! You found an error:</h1>
+          <p>{error.message}</p>
+        </div>
+      </Layout>
+    </Document>
   );
 }

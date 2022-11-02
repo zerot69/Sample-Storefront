@@ -97,10 +97,13 @@ export default function LoginPage() {
   }, [actionData]);
 
   return (
-    <div className="flex min-h-full flex-col justify-center">
+    <div className="flex min-h-full w-full flex-col justify-center">
       <div className="mx-auto w-full max-w-md px-8">
         <Form method="post" className="space-y-6">
           <div>
+            <h1 className="pb-14 text-center align-middle text-5xl font-bold text-gray-800">
+              Log In
+            </h1>
             <label
               htmlFor="email"
               className="block text-sm font-medium text-gray-700"
@@ -157,7 +160,7 @@ export default function LoginPage() {
           <input type="hidden" name="redirectTo" value={redirectTo} />
           <button
             type="submit"
-            className="w-full rounded bg-blue-500  py-2 px-4 text-white hover:bg-blue-600 focus:bg-blue-400"
+            className="w-full rounded bg-yellow-400  py-2 px-4 text-white hover:bg-yellow-500 focus:bg-yellow-300"
           >
             Log in
           </button>
@@ -167,7 +170,7 @@ export default function LoginPage() {
                 id="remember"
                 name="remember"
                 type="checkbox"
-                className="h-4 w-4 rounded border-gray-300 text-blue-600 focus:ring-blue-500"
+                className="h-4 w-4 rounded border-gray-300 text-yellow-500 focus:ring-yellow-400"
               />
               <label
                 htmlFor="remember"
@@ -179,9 +182,9 @@ export default function LoginPage() {
             <div className="text-center text-sm text-gray-500">
               Don't have an account?{" "}
               <Link
-                className="text-blue-500 underline"
+                className="text-yellow-400 underline"
                 to={{
-                  pathname: "/join",
+                  pathname: "/signup",
                   search: searchParams.toString(),
                 }}
               >
