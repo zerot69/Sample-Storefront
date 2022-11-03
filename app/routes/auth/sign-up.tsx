@@ -1,51 +1,10 @@
 import * as React from "react";
-import type { ActionFunction, LoaderArgs, MetaFunction } from "@remix-run/node";
-import { json, redirect } from "@remix-run/node";
 import { Form, Link, useActionData, useSearchParams } from "@remix-run/react";
-import { createServerClient } from "@supabase/auth-helpers-remix";
 
-import { getUserId } from "~/session.server";
+import { SignUpServices } from "~/layout/auth/services";
+// import { getUserId } from "~/session.server";
 
-export async function loader({ request }: LoaderArgs) {
-  const userId = await getUserId(request);
-  if (userId) return redirect("/");
-  return json({});
-}
-
-export const action: ActionFunction = async ({
-  request,
-}: {
-  request: Request;
-}) => {
-  const { email, password } = Object.fromEntries(await request.formData());
-  const response = new Response();
-
-  const supabaseClient = createServerClient(
-    process.env.SUPABASE_URL!,
-    process.env.SUPABASE_ANON_KEY!,
-    { request, response }
-  );
-
-  const { data, error } = await supabaseClient.auth.signUp({
-    email: String(email),
-    password: String(password),
-  });
-
-  // in order for the set-cookie header to be set,
-  // headers must be returned as part of the loader response
-  return json(
-    { data, error },
-    {
-      headers: response.headers,
-    }
-  );
-};
-
-export const meta: MetaFunction = () => {
-  return {
-    title: "Sign Up",
-  };
-};
+export const action = SignUpServices.action;
 
 export default function Join() {
   const [searchParams] = useSearchParams();
@@ -53,14 +12,6 @@ export default function Join() {
   const actionData = useActionData<typeof action>();
   const emailRef = React.useRef<HTMLInputElement>(null);
   const passwordRef = React.useRef<HTMLInputElement>(null);
-
-  React.useEffect(() => {
-    if (actionData?.errors?.email) {
-      emailRef.current?.focus();
-    } else if (actionData?.errors?.password) {
-      passwordRef.current?.focus();
-    }
-  }, [actionData]);
 
   return (
     <div className="flex min-h-full w-full flex-col justify-center">
