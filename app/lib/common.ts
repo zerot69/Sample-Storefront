@@ -14,5 +14,5 @@ export const middleWare = async (props: {
   const messages: any = errors.map(
     (obj: any) => Object.values(obj.constraints)[0]
   );
-  return { success: errors.length > 0, data, messages };
+  return { success: messages.length === 0, data, messages };
 };
