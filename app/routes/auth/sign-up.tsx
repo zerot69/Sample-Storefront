@@ -1,8 +1,5 @@
 import * as React from "react";
-import type { ActionFunction, LoaderArgs, MetaFunction } from "@remix-run/node";
-import { json, redirect } from "@remix-run/node";
 import { Form, Link, useActionData, useSearchParams } from "@remix-run/react";
-import { createServerClient } from "@supabase/auth-helpers-remix";
 
 import { SignUpServices } from "~/layout/auth/services";
 // import { getUserId } from "~/session.server";

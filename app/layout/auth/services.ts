@@ -4,9 +4,9 @@ import { json } from "@remix-run/server-runtime";
 import { SignInInput } from "./dtos/sigin.dto";
 
 import { middleWare } from "~/lib/common";
+import { User } from "~/models/user.models";
 import SupabaseServices from "~/modules/supabase/supabase.services";
 import { ERROR_CODE, SUCCESS_CODE } from "~/shared/message-code";
-import { User } from "~/models/user.models";
 
 export const SignInServices = {
   action: async ({ request }: DataFunctionArgs) => {
