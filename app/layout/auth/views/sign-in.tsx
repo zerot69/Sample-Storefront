@@ -1,77 +1,10 @@
+/* eslint-disable jsx-a11y/anchor-is-valid */
 import { LockClosedIcon } from "@heroicons/react/20/solid";
 import { Form, useActionData } from "@remix-run/react";
-import { DataFunctionArgs, json } from "@remix-run/server-runtime";
-import { createServerClient } from "@supabase/auth-helpers-remix";
-import React from "react";
-import { createUserSession } from "~/session.server";
-import { validateEmail } from "~/utils";
-import { SignInServices } from "../services";
-
-// export const loader = SignInServices.loader;
-export async function action({ request, params }: DataFunctionArgs) {
-  console.log({ request });
-  const formData = await request.formData();
-  const { email, password, redirectTo, remember } = Object.fromEntries<any>(
-    formData.entries()
-  );
-
-  console.log("server", { email, password, redirectTo, remember });
-
-  if (!validateEmail(email)) {
-    return json(
-      { errors: { email: "Email is invalid", password: null } },
-      { status: 400 }
-    );
-  }
-
-  if (typeof password !== "string" || password.length === 0) {
-    return json(
-      { errors: { email: null, password: "Password is required" } },
-      { status: 400 }
-    );
-  }
-
-  if (password.length < 8) {
-    return json(
-      { errors: { email: null, password: "Password is too short" } },
-      { status: 400 }
-    );
-  }
-
-  const response = new Response();
-  const supabaseClient = createServerClient(
-    process.env.SUPABASE_URL!,
-    process.env.SUPABASE_ANON_KEY!,
-    { request, response }
-  );
-  const { data, error }: { data: any; error: any } =
-    await supabaseClient.auth.signInWithPassword({
-      email,
-      password,
-    });
-  console.log({ data, error });
-
-  if (!data) {
-    return json(
-      { errors: { email: "Invalid email or password", password: null } },
-      { status: 400 }
-    );
-  }
-
-  return createUserSession({
-    request,
-    userId: data.session.access_token.toString(),
-    remember: remember === "on" ? true : false,
-    redirectTo,
-  });
-}
 
 export const SignInLayout = () => {
-  // const actionData = useActionData<typeof action>();
-
-  // React.useEffect(() => {
-  //   console.log({ actionData });
-  // }, [actionData]);
+  const actionPayload = useActionData();
+  console.log({ actionPayload });
   return (
     <div className="flex min-h-full items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
       <div className="w-full max-w-md space-y-8">

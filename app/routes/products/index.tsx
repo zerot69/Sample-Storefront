@@ -1,7 +1,8 @@
+/* eslint-disable jsx-a11y/anchor-has-content */
+import { json } from "@remix-run/node";
 import { Link, useLoaderData } from "@remix-run/react";
-import { LoaderArgs } from "@remix-run/server-runtime";
+import type { LoaderArgs } from "@remix-run/server-runtime";
 import { createServerClient } from "@supabase/auth-helpers-remix";
-import { json, redirect } from "@remix-run/node";
 
 export const loader = async ({ request }: LoaderArgs) => {
   const response = new Response();
