@@ -21,7 +21,7 @@ export default function Header() {
     },
   ];
   return (
-    <nav className="flex items-center justify-between px-8 pt-2 ">
+    <nav className="fixed top-0 left-0 z-20 flex w-full items-center justify-between border-b border-gray-200 px-8 pt-2 shadow-md dark:border-gray-600">
       {/* Site Logo */}
       <div className="font-mono text-3xl font-extrabold uppercase">
         <Link to="/">
@@ -30,7 +30,7 @@ export default function Header() {
       </div>
 
       {/* Navigation Links */}
-      <div className="m-auto flex space-x-5">
+      <div className="m-auto hidden space-x-6 sm:flex">
         {links.map((link, index) => (
           <NavLink key={index} to={link.url} className="navlink">
             {link.label}

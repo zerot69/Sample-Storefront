@@ -1,7 +1,7 @@
 export default function OrdersRoute() {
   return (
-    <div className="mt-8 w-full">
-      <h1>Orders:</h1>
+    <div className="mt-8 w-full pb-40">
+      <h1 className="text-gray-00 p-8 pt-20 pl-24 text-5xl">Orders</h1>
       <p className="mt-4 text-justify">
         Lorem ipsum dolor sit amet, consectetur adipisicing elit. Labore aperiam
         maxime assumenda dolore excepturi ipsam accusantium repudiandae ducimus

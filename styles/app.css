@@ -38,7 +38,7 @@ nav {
 }
 
 .navlink {
-  @apply inline-block w-20 py-3 text-center align-middle font-semibold text-gray-600 hover:text-gray-50;
+  @apply inline-block w-20 py-3.5 text-center align-middle font-semibold text-gray-600 hover:text-gray-50;
 }
 
 a.active {

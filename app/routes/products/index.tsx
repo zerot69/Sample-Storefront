@@ -1,8 +1,9 @@
 import { Link, useLoaderData } from "@remix-run/react";
+import Pagination from "~/components/pagination";
 
 export async function loader() {
   const products = await fetch(
-    `https://635739669243cf412f94ec88.mockapi.io/Products`
+    `https://635739669243cf412f94ec88.mockapi.io/Products?page=1&limit=10`
   );
   return await products.json();
 }
@@ -11,15 +12,16 @@ export default function ProductIndexPage() {
   const products = useLoaderData();
 
   return (
-    <div className="mt-8 w-full">
-      <h1 className="p-8 text-5xl text-gray-800">Eco Store</h1>
+    <div className="mt-8 w-full pb-40">
+      <h1 className="text-gray-00 p-8 pt-20 pl-24 text-5xl">Eco Store</h1>
+
+      <Pagination />
+
       <div className="mt-8 grid grid-cols-1 justify-items-center gap-6 px-4 md:grid-cols-2 md:px-12 lg:grid-cols-3 lg:px-6 xl:gap-6 xl:px-4 2xl:grid-cols-4 2xl:gap-6 2xl:px-24">
         {products.map((product: any) => (
           <div key={product.id}>
-            <section className="shadow:md w-80 overflow-hidden rounded-lg bg-white hover:shadow-lg">
-              <Link
-                to={`/products/product?id=${product.id}&name=${product.name}`}
-              >
+            <section className="w-80 overflow-hidden rounded-lg bg-white shadow-md hover:shadow-lg">
+              <Link to={`/products/${product.id}`}>
                 <img
                   className="h-80 w-80 object-cover object-center lg:h-80 lg:w-80"
                   src={product.image}
