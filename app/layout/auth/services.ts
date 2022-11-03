@@ -10,6 +10,7 @@ import { ERROR_CODE, SUCCESS_CODE } from "~/shared/message-code";
 export const SignInServices = {
   action: async ({ request, params }: DataFunctionArgs) => {
     const input = await middleWare({ dto: SignInInput, request });
+    console.log({ input });
     if (!input.success) json(input, { status: Number(ERROR_CODE.BAD_REQUEST) });
     const { supabaseClient } = new SupabaseServices(request);
     const { email, password, remember } = input.data;
