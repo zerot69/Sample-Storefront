@@ -1,5 +1,5 @@
-import { Link, NavLink } from "@remix-run/react";
 import { BiShoppingBag } from "react-icons/bi";
+import { Link, NavLink } from "@remix-run/react";
 
 export default function Header() {
   const links = [

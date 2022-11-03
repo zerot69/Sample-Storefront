@@ -1,9 +1,7 @@
 /* eslint-disable jsx-a11y/anchor-has-content */
-import { json } from "@remix-run/node";
 import { Link, useLoaderData } from "@remix-run/react";
+
 import Pagination from "~/components/pagination";
-import type { LoaderArgs } from "@remix-run/server-runtime";
-import { createServerClient } from "@supabase/auth-helpers-remix";
 
 export async function loader() {
   const products = await fetch(

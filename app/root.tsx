@@ -6,6 +6,7 @@ import {
   LiveReload,
   Meta,
   Outlet,
+  Scripts,
   ScrollRestoration,
   useCatch,
   useLoaderData,
