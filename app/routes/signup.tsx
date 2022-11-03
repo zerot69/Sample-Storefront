@@ -113,9 +113,12 @@ export default function Join() {
   }, [actionData]);
 
   return (
-    <div className="flex min-h-full flex-col justify-center">
+    <div className="flex min-h-full w-full flex-col justify-center">
       <div className="mx-auto w-full max-w-md px-8">
         <Form method="post" className="space-y-6">
+          <h1 className="pb-14 text-center align-middle text-5xl font-bold text-gray-800">
+            Sign Up
+          </h1>
           <div>
             <label
               htmlFor="email"
@@ -173,7 +176,7 @@ export default function Join() {
           <input type="hidden" name="redirectTo" value={redirectTo} />
           <button
             type="submit"
-            className="w-full rounded bg-blue-500  py-2 px-4 text-white hover:bg-blue-600 focus:bg-blue-400"
+            className="w-full rounded bg-yellow-400  py-2 px-4 text-white hover:bg-yellow-500 focus:bg-yellow-300"
           >
             Create Account
           </button>
@@ -181,7 +184,7 @@ export default function Join() {
             <div className="text-center text-sm text-gray-500">
               Already have an account?{" "}
               <Link
-                className="text-blue-500 underline"
+                className="text-yellow-400 underline"
                 to={{
                   pathname: "/login",
                   search: searchParams.toString(),
