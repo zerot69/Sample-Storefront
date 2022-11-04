@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { BiShoppingBag } from "react-icons/bi";
-import { Link,useLoaderData } from "@remix-run/react";
+import { Link, useLoaderData } from "@remix-run/react";
 
 export const loader = async ({ params }: { params: any }) => {
   const product = await fetch(
@@ -74,7 +74,10 @@ export default function ProductRoute() {
             </div>
           </div>
           <div>
-            <button className="inline-flex items-center rounded bg-yellow-500 px-4 py-2 font-semibold text-gray-50 hover:bg-yellow-600">
+            <button
+              className="inline-flex items-center rounded bg-yellow-500 px-4 py-2 font-semibold text-gray-50 hover:bg-yellow-600"
+              onClick={() => console.log(product.id + " " + quantity)}
+            >
               <BiShoppingBag className="mr-2 text-lg" />{" "}
               <span>Add to Cart</span>
             </button>
@@ -103,7 +106,7 @@ export default function ProductRoute() {
                 to={`/products/${product.id}/reviews`}
                 className="text-sm font-medium text-gray-700 no-underline"
               >
-                69 reviews
+                {product.reviews?.length} reviews
               </Link>
             </div>
           </div>
