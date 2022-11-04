@@ -1,8 +1,5 @@
-import { Link, useLoaderData } from "@remix-run/react";
-<<<<<<< HEAD
-=======
 import React from "react";
->>>>>>> develop
+import { Link, useLoaderData } from "@remix-run/react";
 
 export const loader = async ({ params }: { params: any }) => {
   const product = await fetch(

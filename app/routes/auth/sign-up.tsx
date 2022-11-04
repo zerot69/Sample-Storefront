@@ -1,101 +1,10 @@
 import * as React from "react";
-import type { ActionFunction, LoaderArgs, MetaFunction } from "@remix-run/node";
-import { json, redirect } from "@remix-run/node";
 import { Form, Link, useActionData, useSearchParams } from "@remix-run/react";
-import { createServerClient } from "@supabase/auth-helpers-remix";
 
-import { getUserId } from "~/session.server";
+import { SignUpServices } from "~/layout/auth/services";
+// import { getUserId } from "~/session.server";
 
-export async function loader({ request }: LoaderArgs) {
-  const userId = await getUserId(request);
-  if (userId) return redirect("/");
-  return json({});
-}
-
-// export async function action({ request }: ActionArgs) {
-//   const formData = await request.formData();
-//   const email = formData.get("email");
-//   const password = formData.get("password");
-//   const redirectTo = safeRedirect(formData.get("redirectTo"), "/");
-
-//   if (!validateEmail(email)) {
-//     return json(
-//       { errors: { email: "Email is invalid", password: null } },
-//       { status: 400 }
-//     );
-//   }
-
-//   if (typeof password !== "string" || password.length === 0) {
-//     return json(
-//       { errors: { email: null, password: "Password is required" } },
-//       { status: 400 }
-//     );
-//   }
-
-//   if (password.length < 8) {
-//     return json(
-//       { errors: { email: null, password: "Password is too short" } },
-//       { status: 400 }
-//     );
-//   }
-
-//   const existingUser = await getUserByEmail(email);
-//   if (existingUser) {
-//     return json(
-//       {
-//         errors: {
-//           email: "A user already exists with this email",
-//           password: null,
-//         },
-//       },
-//       { status: 400 }
-//     );
-//   }
-
-//   const user = await createUser(email, password);
-
-//   return createUserSession({
-//     request,
-//     userId: user.id,
-//     remember: false,
-//     redirectTo,
-//   });
-// }
-
-export const action: ActionFunction = async ({
-  request,
-}: {
-  request: Request;
-}) => {
-  const { email, password } = Object.fromEntries(await request.formData());
-  const response = new Response();
-
-  const supabaseClient = createServerClient(
-    process.env.SUPABASE_URL!,
-    process.env.SUPABASE_ANON_KEY!,
-    { request, response }
-  );
-
-  const { data, error } = await supabaseClient.auth.signUp({
-    email: String(email),
-    password: String(password),
-  });
-
-  // in order for the set-cookie header to be set,
-  // headers must be returned as part of the loader response
-  return json(
-    { data, error },
-    {
-      headers: response.headers,
-    }
-  );
-};
-
-export const meta: MetaFunction = () => {
-  return {
-    title: "Sign Up",
-  };
-};
+export const action = SignUpServices.action;
 
 export default function Join() {
   const [searchParams] = useSearchParams();
@@ -103,14 +12,6 @@ export default function Join() {
   const actionData = useActionData<typeof action>();
   const emailRef = React.useRef<HTMLInputElement>(null);
   const passwordRef = React.useRef<HTMLInputElement>(null);
-
-  React.useEffect(() => {
-    if (actionData?.errors?.email) {
-      emailRef.current?.focus();
-    } else if (actionData?.errors?.password) {
-      passwordRef.current?.focus();
-    }
-  }, [actionData]);
 
   return (
     <div className="flex min-h-full w-full flex-col justify-center">
