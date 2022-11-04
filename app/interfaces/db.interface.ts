@@ -1,3 +1,7 @@
+export enum EGender {
+  male = "male",
+  female = "female",
+}
 export interface IUser {
   id: string;
   first_name: string;
@@ -5,6 +9,7 @@ export interface IUser {
   email: string;
   password: string;
   dob: string;
+  gender: EGender;
   active: boolean;
   created_at: Date;
 }
