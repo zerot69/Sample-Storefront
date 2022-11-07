@@ -3,8 +3,8 @@ import { LockClosedIcon } from "@heroicons/react/20/solid";
 import { Form, Link, useActionData } from "@remix-run/react";
 
 export const SignInLayout = () => {
-  const actionPayload = useActionData();
-  console.log({ actionPayload });
+  const profile = useLoaderData();
+  console.log({ profile });
   return (
     <div className="flex min-h-full w-full flex-col justify-center">
       <div className="mx-auto w-full max-w-md px-8">

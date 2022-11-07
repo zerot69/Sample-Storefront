@@ -48,6 +48,8 @@ export const ERROR_CODE = {
   UNPROCESSABLE_ENTITY: {
     CODE: StatusCodes.UNPROCESSABLE_ENTITY,
     LOGIN_FAIL: "422a",
+    SIGN_IN_FAIL: "422b",
+    DUPLICATE_EMAIL: "422c",
   },
   /**
    * @type: INTERNAL_SERVER_ERROR

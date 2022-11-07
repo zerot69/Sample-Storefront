@@ -47,12 +47,11 @@ export async function action({ request }: ActionArgs) {
     process.env.SUPABASE_ANON_KEY!,
     { request, response }
   );
-  const { data, error }: { data: any; error: any } =
+  const { data }: { data: any; error: any } =
     await supabaseClient.auth.signInWithPassword({
       email,
       password,
     });
-  console.log({ data, error });
 
   if (!data) {
     return json(
