@@ -29,28 +29,4 @@ export class User {
     ]);
     Object.assign(this, data);
   }
-
-  signIn = async (data: SignUpInput): Promise<ITransitMessage> => {
-    let response, messages;
-    try {
-      response = await db.users.create({ data });
-    } catch (error) {
-      console.error({ error });
-      messages = "Internal error";
-    }
-    return { success: !!response, data: response, messages };
-  };
-
-  signUp = async (data: SignInInput): Promise<ITransitMessage> => {
-    let response, messages;
-    try {
-      response = await db.users.findFirst({
-        where: { email: data.email, password: data.password },
-      });
-    } catch (error) {
-      console.error({ error });
-      messages = "Internal error";
-    }
-    return { success: !!response, data: response, messages };
-  };
 }

@@ -11,6 +11,7 @@ export const middleWare = async (props: {
   const data = Object.fromEntries<any>(formData.entries());
   const dto: any = plainToClass(props.dto, data);
   const errors = await validate(dto);
+  // console.log({ errors });
   const messages: any = errors.map(
     (obj: any) => Object.values(obj.constraints)[0]
   );
