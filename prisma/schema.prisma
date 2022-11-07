@@ -1,5 +1,5 @@
 datasource db {
-  provider = "sqlite"
+  provider = "mongodb"
   url      = env("DATABASE_URL")
 }
 
@@ -7,32 +7,82 @@ generator client {
   provider = "prisma-client-js"
 }
 
-model User {
-  id    String @id @default(cuid())
-  email String @unique
-
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-
-  password Password?
-  notes    Note[]
+type attribute {
+  key    String
+  value  String
+  active Boolean @default(true)
 }
 
-model Password {
-  hash String
-
-  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
-  userId String @unique
+type categories {
+  key    String
+  value  String
+  active Boolean @default(true)
 }
 
-model Note {
-  id    String @id @default(cuid())
-  title String
-  body  String
+model users {
+  id         String   @id @default(auto()) @map("_id") @db.ObjectId
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+  active     Boolean  @default(true)
 
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  email      String    @unique
+  password   String?
+  first_name String?
+  last_name  String?
+  dob        DateTime?
+  gender     String?
+  address    address[]
+  brands     brands?   @relation(fields: [brandsId], references: [id])
+  brandsId   String?   @db.ObjectId
+}
 
-  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
-  userId String
+model brands {
+  id         String    @id @default(auto()) @map("_id") @db.ObjectId
+  created_at DateTime  @default(now())
+  updated_at DateTime  @updatedAt
+  active     Boolean   @default(true)
+  products   products? @relation(fields: [productsId], references: [id])
+  productsId String?   @db.ObjectId
+
+  name        String
+  description String
+  busisnes    String
+  attribute   attribute[]
+  users       users[]
+}
+
+type address {
+  created_at DateTime @default(now())
+  active     Boolean  @default(true)
+
+  name        String
+  description String
+  default     Boolean @default(false)
+
+  phone    String
+  street   String
+  district String
+  province String
+  city     String
+  nation   String
+}
+
+model products {
+  id         String   @id @default(auto()) @map("_id") @db.ObjectId
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+  active     Boolean  @default(true)
+
+  name        String
+  description String
+  attribute   attribute[]
+  categories  categories[]
+  images      String[]
+  price       Float
+  base        Float
+  quantity    Int
+  sold        attribute[]
+  views       attribute[]
+  comments    attribute[]
+  brands      brands[]
 }

@@ -1,10 +1,8 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import { LockClosedIcon } from "@heroicons/react/20/solid";
-import { Form, useLoaderData } from "@remix-run/react";
+import { Form } from "@remix-run/react";
 
 export const SignInLayout = () => {
-  const profile = useLoaderData();
-  console.log({ profile });
   return (
     <div className="flex min-h-full items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
       <div className="w-full max-w-md space-y-8">
