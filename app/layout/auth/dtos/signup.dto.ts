@@ -1,4 +1,5 @@
 import { IsDate, IsEmail, IsEnum, IsString } from "class-validator";
+
 import { EGender } from "~/interfaces/db.interface";
 
 export class SignUpInput {

@@ -1,10 +1,8 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import { LockClosedIcon } from "@heroicons/react/20/solid";
-import { Form, useActionData, useLoaderData } from "@remix-run/react";
+import { Form, useLoaderData } from "@remix-run/react";
 
 export const SignInLayout = () => {
-  // const actionPayload = useActionData();
-  // console.log({ actionPayload });
   const profile = useLoaderData();
   console.log({ profile });
   return (

@@ -1,8 +1,6 @@
-import type { EGender, IUser } from "~/interfaces/db.interface";
 import _ from "lodash";
-import { SignUpInput } from "~/layout/auth/dtos/signup.dto";
-import { SignInInput } from "~/layout/auth/dtos/signin.dto";
-import { ITransitMessage } from "~/interfaces/common.interface";
+
+import type { EGender, IUser } from "~/interfaces/db.interface";
 
 export class User {
   table: "users";

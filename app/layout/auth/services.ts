@@ -2,12 +2,11 @@ import type { DataFunctionArgs } from "@remix-run/server-runtime";
 import { json } from "@remix-run/server-runtime";
 
 import { SignInInput } from "./dtos/signin.dto";
-import _ from "lodash";
+import { SignUpInput } from "./dtos/signup.dto";
 
 import { middleWare } from "~/lib/common";
-import { ERROR_CODE, SUCCESS_CODE } from "~/shared/message-code";
 import { User } from "~/models/user.models";
-import { SignUpInput } from "./dtos/signup.dto";
+import { ERROR_CODE, SUCCESS_CODE } from "~/shared/message-code";
 
 export const SignInServices = {
   action: async ({ request }: DataFunctionArgs) => {
