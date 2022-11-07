@@ -44,7 +44,7 @@ export default function Header() {
           to="/checkout"
           className="inline-flex items-center space-x-1 transition-colors duration-300"
         >
-          <BiShoppingBag className="text-xl" /> <span>0</span>
+          <BiShoppingBag className="text-xl" />
         </NavLink>
       </div>
     </nav>

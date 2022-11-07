@@ -15,7 +15,7 @@ export default function AboutRoute() {
         <div className="items-center justify-center space-y-4 sm:flex sm:space-y-0 sm:space-x-4">
           <Link
             to="#"
-            className="inline-flex w-full items-center justify-center rounded-lg bg-gray-800 px-4 py-2.5 text-white hover:bg-gray-700 focus:outline-none focus:ring-4 focus:ring-gray-300 sm:w-auto"
+            className="inline-flex w-full items-center justify-center rounded-lg bg-yellow-500 px-4 py-2.5 text-white hover:bg-yellow-600 focus:outline-none focus:ring-4 focus:ring-gray-300 sm:w-auto"
           >
             <svg
               className="mr-3 h-7 w-7"
@@ -41,7 +41,7 @@ export default function AboutRoute() {
           </Link>
           <Link
             to="#"
-            className="inline-flex w-full items-center justify-center rounded-lg bg-gray-800 px-4 py-2.5 text-white hover:bg-gray-700 focus:outline-none focus:ring-4 focus:ring-gray-300 sm:w-auto"
+            className="inline-flex w-full items-center justify-center rounded-lg bg-yellow-500 px-4 py-2.5 text-white hover:bg-yellow-600 focus:outline-none focus:ring-4 focus:ring-gray-300 sm:w-auto"
           >
             <svg
               className="mr-3 h-7 w-7"

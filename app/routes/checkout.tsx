@@ -1,6 +1,24 @@
 import { Link } from "@remix-run/react";
 
 export default function AboutRoute() {
+  // Change cart here <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+  const cart = [
+    { id: 1, name: "Item 1", quantity: 1, price: 69.99 },
+    { id: 2, name: "Item 2", quantity: 1, price: 19.99 },
+    { id: 3, name: "Item 3", quantity: 1, price: 0.99 },
+  ];
+
+  const pretotal =
+    Math.round(
+      cart.reduce(
+        (total, currentValue) =>
+          (total = total + currentValue.price * currentValue.quantity),
+        0
+      ) * 100
+    ) / 100;
+  const tax = Math.round(pretotal * 0.1 * 100) / 100;
+  const shipping = 5;
+
   return (
     <div className="mt-8 w-4/5 pb-40">
       <h1 className="text-gray-00 p-8 pt-20 text-center text-5xl">Checkout</h1>
@@ -105,32 +123,46 @@ export default function AboutRoute() {
         <div>
           <h2 className="text-lg font-medium">Purchase Summary</h2>
           <div className="mt-4 rounded-xl bg-white py-6 shadow-lg">
-            <div className="space-y-4 px-8">
-              <div className="flex items-end">
-                <p className="font-semibold">Item 1</p>
-                <span className="ml-auto text-sm font-semibold">$20</span>
+            {cart.length === 0 ? (
+              <h2 className="w-full pt-20 text-center">No items in cart!</h2>
+            ) : (
+              <div className="space-y-4 px-8">
+                {cart.map((item: any) => (
+                  <div key={item.id}>
+                    <div className="flex items-end">
+                      <p className="font-semibold">{item.name}</p>
+                      <span className="ml-auto text-sm font-semibold">
+                        ${item.price * item.quantity}
+                      </span>
+                    </div>
+                    <span className="mt-2 text-xs text-gray-500">
+                      Quality: {item.quantity}
+                    </span>
+                  </div>
+                ))}
               </div>
-              <span className="mt-2 text-xs text-gray-500">Quality: 1</span>
-              <div className="flex items-end">
-                <p className="font-semibold">Item 2</p>
-                <span className="ml-auto text-sm font-semibold">$40</span>
-              </div>
-              <span className="mt-2 text-xs text-gray-500">Quality: 1</span>
-            </div>
+            )}
+
             <div className="mt-4 space-y-1 px-8">
               <div className="flex items-end justify-between">
+                <span className="text-sm font-semibold">Pre-total</span>
+                <span className="mb-px text-sm text-gray-500">${pretotal}</span>
+              </div>
+              <div className="flex items-end justify-between">
                 <span className="text-sm font-semibold">Tax</span>
-                <span className="mb-px text-sm text-gray-500">$6</span>
+                <span className="mb-px text-sm text-gray-500">${tax}</span>
               </div>
               <div className="flex items-end justify-between">
                 <span className="text-sm font-semibold">Shipping</span>
-                <span className="mb-px text-sm text-gray-500">$2</span>
+                <span className="mb-px text-sm text-gray-500">${shipping}</span>
               </div>
             </div>
             <div className="mt-4 border-t px-8 pt-4">
               <div className="flex items-end justify-between">
                 <span className="font-semibold">Total</span>
-                <span className="font-semibold">$68</span>
+                <span className="font-semibold">
+                  ${pretotal + tax + shipping}
+                </span>
               </div>
               <span className="mt-2 text-xs text-gray-500">
                 Save more with{" "}
@@ -140,12 +172,16 @@ export default function AboutRoute() {
               </span>
             </div>
             <div className="mt-8 flex items-center px-8">
-              <input id="termsConditions" type="checkbox" />
+              <input id="termsConditions" type="checkbox" required />
               <label
                 className="ml-2 text-xs text-gray-500"
                 htmlFor="termsConditions"
               >
-                I agree to the terms and conditions.
+                I agree to the{" "}
+                <Link to="/about" className="text-yellow-500" target="_blank">
+                  Terms and conditions
+                </Link>
+                .
               </label>
             </div>
             <div className="flex flex-col px-8 pt-4">
