@@ -8,7 +8,7 @@ export const loader = async ({ params }: { params: any }) => {
   return await product.json();
 };
 
-export default function ProductRoute() {
+export default function ProductReviewsRoute() {
   const product = useLoaderData();
 
   return (
@@ -27,7 +27,10 @@ export default function ProductRoute() {
               Home
             </Link>{" "}
             /{" "}
-            <Link to="" className="font-semibold">
+            <Link
+              to={`/category/${product.category}`}
+              className="font-semibold"
+            >
               {product.category}{" "}
             </Link>{" "}
             /{" "}
@@ -37,7 +40,9 @@ export default function ProductRoute() {
             / Reviews
           </h6>
           <h1 className="text-3xl font-semibold text-gray-800">
-            {product.name}{" "}
+            <Link to={`/products/${product.id}`} className="font-semibold">
+              {product.name}
+            </Link>
           </h1>
           {product.reviews.length === 0 ? (
             <p>There is no comments for this product.</p>

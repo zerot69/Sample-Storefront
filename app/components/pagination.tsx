@@ -7,7 +7,7 @@ export default function Pagination() {
         <div>
           <p className="text-sm text-gray-800">
             Showing <span className="font-medium">1</span> to{" "}
-            <span className="font-medium">10</span> of{" "}
+            <span className="font-medium">20</span> of{" "}
             <span className="font-medium">100</span> results
           </p>
         </div>

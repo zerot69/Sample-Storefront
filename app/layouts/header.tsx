@@ -12,8 +12,8 @@ export default function Header() {
       url: "/products",
     },
     {
-      label: "Orders",
-      url: "/orders",
+      label: "Categories",
+      url: "/category",
     },
     {
       label: "About",

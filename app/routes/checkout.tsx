@@ -110,16 +110,12 @@ export default function AboutRoute() {
                 <p className="font-semibold">Item 1</p>
                 <span className="ml-auto text-sm font-semibold">$20</span>
               </div>
-              <span className="mt-2 text-xs text-gray-500">
-                Lorem ipsum dolor sit amet consectetur.
-              </span>
+              <span className="mt-2 text-xs text-gray-500">Quality: 1</span>
               <div className="flex items-end">
                 <p className="font-semibold">Item 2</p>
                 <span className="ml-auto text-sm font-semibold">$40</span>
               </div>
-              <span className="mt-2 text-xs text-gray-500">
-                Lorem ipsum dolor sit amet consectetur.
-              </span>
+              <span className="mt-2 text-xs text-gray-500">Quality: 1</span>
             </div>
             <div className="mt-4 space-y-1 px-8">
               <div className="flex items-end justify-between">

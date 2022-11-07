@@ -73,6 +73,7 @@ function Document({ children }: { children: any }) {
 }
 
 export function ErrorBoundary({ error }: { error: any }) {
+  console.error({ error });
   return (
     <Document>
       <Layout>
