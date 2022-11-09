@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { BiShoppingBag } from "react-icons/bi";
 import { Link, useLoaderData } from "@remix-run/react";
 
@@ -7,9 +7,10 @@ export function ErrorBoundary({ error }: { error: any }) {
     <section className="flex h-full min-h-screen w-full items-center">
       <div className="container mx-auto my-8 flex flex-col items-center justify-center px-5">
         <div className="max-w-lg text-center">
-          <p className="yellow text-2xl font-semibold md:text-3xl">
-            Gratz! You found an imagine product.
+          <p className="text-2xl font-semibold md:text-3xl">
+            Sorry! Something went wrong with this product.
           </p>
+          <pre className="mt-4 mb-4">{error.message}</pre>
           <p className="mt-4 mb-8">
             You can still find plenty of other things on our website.
           </p>
@@ -41,6 +42,11 @@ export const loader = async ({ params }: { params: any }) => {
 export default function ProductRoute() {
   const product = useLoaderData();
   const [quantity, setQuantity] = useState(1);
+  const [cart, setCart] = useState(() => {
+    let savedCart = localStorage.getItem("cart");
+    const parsedCart = JSON.parse(savedCart!) || [];
+    return parsedCart;
+  });
 
   const handleQuantityChange = (action: any) => {
     switch (action) {
@@ -55,6 +61,50 @@ export default function ProductRoute() {
       default:
         break;
     }
+  };
+
+  // const handleAddToCart = (
+  //   id: string,
+  //   name: string,
+  //   quantity: number,
+  //   price: string
+  // ) => {
+  //   setCart([{ id: id, name: name, quantity: quantity, price: price }]);
+  // };
+
+  // useEffect(() => {
+  //   const currentCart = JSON.parse(localStorage.getItem("cart")!) || [];
+  //   if (cart[0] != null) currentCart.push(cart[0]);
+  //   localStorage.setItem("cart", JSON.stringify(currentCart));
+  // }, [cart]);
+
+  const handleAddToCart = (
+    id: string,
+    name: string,
+    quantity: number,
+    price: string
+  ) => {
+    const currentCart = JSON.parse(localStorage.getItem("cart")!) || [];
+    const item = {
+      id: id,
+      name: name,
+      quantity: quantity,
+      price: price,
+    };
+    if (currentCart.length === 0) {
+      currentCart.push(item);
+    } else {
+      let temp = -1;
+      for (let i = 0; i < currentCart.length; i++) {
+        if (currentCart[i].id === id) temp = i;
+      }
+      if (temp >= 0) {
+        currentCart[temp].quantity += quantity;
+      } else {
+        currentCart.push(item);
+      }
+    }
+    localStorage.setItem("cart", JSON.stringify(currentCart));
   };
 
   return (
@@ -108,9 +158,14 @@ export default function ProductRoute() {
           <div>
             <button
               className="inline-flex items-center rounded bg-yellow-500 px-4 py-2 font-semibold text-gray-50 hover:bg-yellow-600"
-              onClick={() =>
-                alert(product.id + " " + product.price + " " + quantity)
-              }
+              onClick={() => {
+                handleAddToCart(
+                  product.id,
+                  product.name,
+                  quantity,
+                  product.price
+                );
+              }}
             >
               <BiShoppingBag className="mr-2 text-lg" />{" "}
               <span>Add to Cart</span>

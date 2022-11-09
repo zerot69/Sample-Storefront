@@ -13,6 +13,35 @@ export async function loader({ params }: { params: any }) {
 export default function CategoryRoute() {
   const products = useLoaderData();
 
+  const handleAddToCart = (
+    id: string,
+    name: string,
+    quantity: number,
+    price: string
+  ) => {
+    const currentCart = JSON.parse(localStorage.getItem("cart")!) || [];
+    const item = {
+      id: id,
+      name: name,
+      quantity: quantity,
+      price: price,
+    };
+    if (currentCart.length === 0) {
+      currentCart.push(item);
+    } else {
+      let temp = -1;
+      for (let i = 0; i < currentCart.length; i++) {
+        if (currentCart[i].id === id) temp = i;
+      }
+      if (temp >= 0) {
+        currentCart[temp].quantity += quantity;
+      } else {
+        currentCart.push(item);
+      }
+    }
+    localStorage.setItem("cart", JSON.stringify(currentCart));
+  };
+
   return (
     <div className="mt-8 w-full pb-40">
       <h1 className="text-gray-00 p-8 pt-20 pl-24 text-5xl">
@@ -41,11 +70,19 @@ export default function CategoryRoute() {
                   <p className="py-2 text-center text-lg font-bold text-yellow-400">
                     ${product.price}
                   </p>
-                  <button className="my-2 flex w-full items-center justify-center rounded-lg border border-transparent bg-yellow-400 px-6 py-1 text-base font-medium text-white hover:bg-yellow-500 md:py-2 md:px-10 md:text-lg">
-                    Add to cart
-                  </button>
                 </div>
               </Link>
+
+              <div className="flex flex-col px-8 pb-4">
+                <button
+                  onClick={() => {
+                    handleAddToCart(product.id, product.name, 1, product.price);
+                  }}
+                  className="my-2 flex w-full items-center justify-center rounded-lg border border-transparent bg-yellow-400 px-6 py-1 text-base font-medium text-white hover:bg-yellow-500 md:py-2 md:px-10 md:text-lg"
+                >
+                  Add to cart
+                </button>
+              </div>
             </section>
           </div>
         ))}

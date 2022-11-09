@@ -77,9 +77,21 @@ export function ErrorBoundary({ error }: { error: any }) {
   return (
     <Document>
       <Layout>
-        <div className="text-red-500">
-          <h1>Gratz! You found an error:</h1>
-          <p>{error.message}</p>
+        <div className="container mx-auto my-8 flex flex-col items-center justify-center px-5">
+          <div className="h-full min-h-screen pt-40 text-center">
+            <h1>Gratz! You found an error:</h1>
+            <p>{error.message}</p>
+            <p className="mt-4 mb-8">
+              You can still find plenty of other things on our website.
+            </p>
+            <Link
+              rel="noopener noreferrer"
+              to="/"
+              className="rounded bg-yellow-400 px-8 py-3 font-semibold text-white hover:bg-yellow-500"
+            >
+              Back to Home
+            </Link>
+          </div>
         </div>
       </Layout>
     </Document>
