@@ -1,4 +1,5 @@
 /* eslint-disable jsx-a11y/anchor-has-content */
+import toast, { Toaster } from "react-hot-toast";
 import { Link, useLoaderData } from "@remix-run/react";
 
 import Pagination from "~/components/pagination";
@@ -13,7 +14,7 @@ export async function loader({ request }: { request: any }) {
     return await products.json();
   } else {
     const products = await fetch(
-      `https://635739669243cf412f94ec88.mockapi.io/Products?page=1&limit=20`
+      `https://635739669243cf412f94ec88.mockapi.io/Products?page=1&limit=100`
     );
     return await products.json();
   }
@@ -68,11 +69,13 @@ export default function ProductIndexPage() {
             <div key={product.id}>
               <section className="w-80 overflow-hidden rounded-lg bg-white shadow-md hover:shadow-lg">
                 <Link to={`/products/${product.id}`}>
-                  <img
-                    className="h-80 w-80 object-cover object-center lg:h-80 lg:w-80"
-                    src={product.image}
-                    alt={product.shortDesc}
-                  />
+                  <div className="overflow-hidden">
+                    <img
+                      className="h-80 w-80 object-cover object-center duration-300 hover:scale-110 lg:h-80 lg:w-80"
+                      src={product.image}
+                      alt={product.shortDesc}
+                    />
+                  </div>
                   <div className="p-4">
                     <h3 className="py-2 text-lg font-bold text-gray-700 hover:underline">
                       {product.name}
@@ -95,6 +98,7 @@ export default function ProductIndexPage() {
                         1,
                         product.price
                       );
+                      toast.success("Great! Item added.");
                     }}
                     className="my-2 flex w-full items-center justify-center rounded-lg border border-transparent bg-yellow-400 px-6 py-1 text-base font-medium text-white hover:bg-yellow-500 md:py-2 md:px-10 md:text-lg"
                   >
@@ -106,6 +110,21 @@ export default function ProductIndexPage() {
           ))}
         </div>
       )}
+
+      <Toaster
+        position="bottom-right"
+        toastOptions={{
+          duration: 3000,
+          style: {
+            background: "rgba(251, 191, 36)",
+            color: "#fff",
+          },
+          iconTheme: {
+            primary: "white",
+            secondary: "black",
+          },
+        }}
+      />
     </div>
   );
 }

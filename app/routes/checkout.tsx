@@ -1,4 +1,5 @@
 import { useState } from "react";
+import toast, { Toaster } from "react-hot-toast";
 import { Link } from "@remix-run/react";
 
 export default function AboutRoute() {
@@ -173,6 +174,7 @@ export default function AboutRoute() {
                       <span
                         onClick={() => {
                           handleRemoveItem(item.id);
+                          toast.error("Item removed!");
                         }}
                         className="ml-auto text-xs text-red-400 hover:cursor-pointer"
                       >
@@ -242,6 +244,25 @@ export default function AboutRoute() {
           )}
         </div>
       </div>
+      <Toaster
+        position="bottom-right"
+        toastOptions={{
+          duration: 3000,
+          style: {
+            background: "rgba(251, 191, 36)",
+            color: "#fff",
+          },
+          iconTheme: {
+            primary: "white",
+            secondary: "black",
+          },
+          error: {
+            style: {
+              background: "rgba(239, 68, 68)",
+            },
+          },
+        }}
+      />
     </div>
   );
 }

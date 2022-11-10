@@ -88,7 +88,7 @@ export default function Index() {
 
                 <Link
                   to="/products"
-                  className="inline-block rounded-md border-2 border-transparent border-yellow-400 bg-white py-3 px-8 text-center font-medium text-gray-900 transition duration-300 hover:scale-110 hover:bg-gray-50"
+                  className="inline-block rounded-md border-2 border-transparent border-yellow-400 bg-white py-3 px-8 text-center font-medium text-gray-900 transition duration-300 hover:scale-110 hover:bg-yellow-500 hover:text-white"
                 >
                   To the Shop
                 </Link>
