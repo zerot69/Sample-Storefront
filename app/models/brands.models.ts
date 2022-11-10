@@ -2,7 +2,7 @@ import _ from "lodash";
 
 import type { EGender, IUser } from "~/interfaces/db.interface";
 
-export class User {
+export class Brands {
   id: string;
   first_name: string;
   last_name: string;
