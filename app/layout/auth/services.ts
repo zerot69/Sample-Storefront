@@ -54,8 +54,8 @@ export const SignUpServices = {
       });
 
       if (foundEmail) {
-        message = ERROR_CODE.UNPROCESSABLE_ENTITY.USER_NOT_FOUND;
-        status = ERROR_CODE.UNPROCESSABLE_ENTITY.CODE;
+        message = ERROR_CODE.NOT_FOUND.USER_NOT_FOUND;
+        status = ERROR_CODE.NOT_FOUND.CODE;
       } else {
         const dataUser = new User(input.data);
         data = await db.users.create({ data: dataUser });
