@@ -1,17 +1,52 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { BiShoppingBag } from "react-icons/bi";
 import { Link, useLoaderData } from "@remix-run/react";
 
-export const loader = async ({ params }: { params: any }) => {
-  const product = await fetch(
-    `https://635739669243cf412f94ec88.mockapi.io/Products/${params.productId}`
+export function ErrorBoundary({ error }: { error: any }) {
+  return (
+    <section className="flex h-full min-h-screen w-full items-center">
+      <div className="container mx-auto my-8 flex flex-col items-center justify-center px-5">
+        <div className="max-w-lg text-center">
+          <p className="text-2xl font-semibold md:text-3xl">
+            Sorry! Something went wrong with this product.
+          </p>
+          <pre className="mt-4 mb-4">{error.message}</pre>
+          <p className="mt-4 mb-8">
+            You can still find plenty of other things on our website.
+          </p>
+          <Link
+            rel="noopener noreferrer"
+            to="/products"
+            className="rounded bg-yellow-400 px-8 py-3 font-semibold text-white hover:bg-yellow-500"
+          >
+            Back to Products
+          </Link>
+        </div>
+      </div>
+    </section>
   );
-  return await product.json();
+}
+
+export const loader = async ({ params }: { params: any }) => {
+  try {
+    const product = await fetch(
+      `https://635739669243cf412f94ec88.mockapi.io/Products/${params.productId}`
+    );
+
+    return product.json();
+  } catch (error) {
+    throw new Error("No product found!");
+  }
 };
 
 export default function ProductRoute() {
   const product = useLoaderData();
   const [quantity, setQuantity] = useState(1);
+  const [cart, setCart] = useState(() => {
+    let savedCart = localStorage.getItem("cart");
+    const parsedCart = JSON.parse(savedCart!) || [];
+    return parsedCart;
+  });
 
   const handleQuantityChange = (action: any) => {
     switch (action) {
@@ -28,23 +63,70 @@ export default function ProductRoute() {
     }
   };
 
+  // const handleAddToCart = (
+  //   id: string,
+  //   name: string,
+  //   quantity: number,
+  //   price: string
+  // ) => {
+  //   setCart([{ id: id, name: name, quantity: quantity, price: price }]);
+  // };
+
+  // useEffect(() => {
+  //   const currentCart = JSON.parse(localStorage.getItem("cart")!) || [];
+  //   if (cart[0] != null) currentCart.push(cart[0]);
+  //   localStorage.setItem("cart", JSON.stringify(currentCart));
+  // }, [cart]);
+
+  const handleAddToCart = (
+    id: string,
+    name: string,
+    quantity: number,
+    price: string
+  ) => {
+    const currentCart = JSON.parse(localStorage.getItem("cart")!) || [];
+    const item = {
+      id: id,
+      name: name,
+      quantity: quantity,
+      price: price,
+    };
+    if (currentCart.length === 0) {
+      currentCart.push(item);
+    } else {
+      let temp = -1;
+      for (let i = 0; i < currentCart.length; i++) {
+        if (currentCart[i].id === id) temp = i;
+      }
+      if (temp >= 0) {
+        currentCart[temp].quantity += quantity;
+      } else {
+        currentCart.push(item);
+      }
+    }
+    localStorage.setItem("cart", JSON.stringify(currentCart));
+  };
+
   return (
     <div className="w-full pt-16">
-      <div className="grid items-center md:grid-cols-2">
-        <div>
+      <div className="grid items-baseline md:grid-cols-2">
+        <div className="overflow-hidden">
           <img
-            className="m-16 aspect-square h-4/5 w-4/5 justify-center overflow-hidden rounded-2xl object-cover object-center shadow-xl hover:border-yellow-500"
+            className="m-16 aspect-square h-4/5 w-4/5 justify-center overflow-hidden rounded-2xl object-cover object-center shadow-xl"
             src={product.image}
             alt={product.shortDesc}
           />
         </div>
-        <div className="flex flex-col space-y-6 py-4 pl-6 pr-20">
+        <div className="flex flex-col space-y-6 pb-4 pl-6 pr-20 pt-20">
           <h6>
             <Link to="/" className="font-semibold text-yellow-500">
               Home
             </Link>{" "}
             /{" "}
-            <Link to="" className="font-semibold">
+            <Link
+              to={`/category/${product.category}`}
+              className="font-semibold"
+            >
               {product.category}{" "}
             </Link>{" "}
             / {product.name}{" "}
@@ -74,7 +156,17 @@ export default function ProductRoute() {
             </div>
           </div>
           <div>
-            <button className="inline-flex items-center rounded bg-yellow-500 px-4 py-2 font-semibold text-gray-50 hover:bg-yellow-600">
+            <button
+              className="inline-flex items-center rounded bg-yellow-500 px-4 py-2 font-semibold text-gray-50 hover:bg-yellow-600"
+              onClick={() => {
+                handleAddToCart(
+                  product.id,
+                  product.name,
+                  quantity,
+                  product.price
+                );
+              }}
+            >
               <BiShoppingBag className="mr-2 text-lg" />{" "}
               <span>Add to Cart</span>
             </button>
@@ -103,7 +195,7 @@ export default function ProductRoute() {
                 to={`/products/${product.id}/reviews`}
                 className="text-sm font-medium text-gray-700 no-underline"
               >
-                69 reviews
+                {product.reviews?.length} reviews
               </Link>
             </div>
           </div>

@@ -1,7 +1,26 @@
+import { useEffect, useMemo, useState } from "react";
 import { BiShoppingBag } from "react-icons/bi";
 import { Link, NavLink } from "@remix-run/react";
 
 export default function Header() {
+  // let cart = useMemo(() => [], []);
+  // if (typeof window !== "undefined") {
+  //   cart = JSON.parse(localStorage.getItem("cart")!) || [];
+  // }
+
+  // const [item, setItem] = useState(
+  //   cart.reduce((total: any, item: any) => (total = total + item.quantity), 0)
+  // );
+
+  // useEffect(() => {
+  //   setItem([
+  //     ...cart.reduce(
+  //       (total: any, item: any) => (total = total + item.quantity),
+  //       0
+  //     ),
+  //   ]);
+  // }, [cart]);
+
   const links = [
     {
       label: "Home",
@@ -12,8 +31,8 @@ export default function Header() {
       url: "/products",
     },
     {
-      label: "Orders",
-      url: "/orders",
+      label: "Categories",
+      url: "/category",
     },
     {
       label: "About",
@@ -32,7 +51,7 @@ export default function Header() {
       {/* Navigation Links */}
       <div className="m-auto hidden space-x-6 sm:flex">
         {links.map((link, index) => (
-          <NavLink key={index} to={link.url} className="navlink">
+          <NavLink key={index} to={link.url} className="navlink duration-300">
             {link.label}
           </NavLink>
         ))}
@@ -44,7 +63,8 @@ export default function Header() {
           to="/checkout"
           className="inline-flex items-center space-x-1 transition-colors duration-300"
         >
-          <BiShoppingBag className="text-xl" /> <span>0</span>
+          <BiShoppingBag className="text-xl" />
+          {/* <span>{item}</span> */}
         </NavLink>
       </div>
     </nav>
