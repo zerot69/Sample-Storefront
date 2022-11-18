@@ -54,12 +54,14 @@ export default function CategoryRoute() {
         {products.map((product: any) => (
           <div key={product.id}>
             <section className="w-80 overflow-hidden rounded-lg bg-white shadow-md hover:shadow-lg">
-              <Link to={`/products/${product.id}`}>
-                <img
-                  className="h-80 w-80 object-cover object-center lg:h-80 lg:w-80"
-                  src={product.image}
-                  alt={product.shortDesc}
-                />
+              <Link to={`/products/${product.id}`} prefetch="intent">
+                <div className="overflow-hidden">
+                  <img
+                    className="h-80 w-80 object-cover object-center duration-300 hover:scale-110 lg:h-80 lg:w-80"
+                    src={product.image}
+                    alt={product.shortDesc}
+                  />
+                </div>
                 <div className="p-4">
                   <h3 className="py-2 text-lg font-bold text-gray-700 hover:underline">
                     {product.name}

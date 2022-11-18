@@ -1,4 +1,4 @@
-import type { LinksFunction, MetaFunction } from "@remix-run/node";
+import type { LinksFunction, LoaderArgs, MetaFunction } from "@remix-run/node";
 import { json } from "@remix-run/node";
 import {
   Link,
@@ -15,6 +15,7 @@ import {
 import Layout from "./layouts";
 
 import tailwindStylesheetUrl from "./styles/tailwind.css";
+
 export const links: LinksFunction = () => {
   return [{ rel: "stylesheet", href: tailwindStylesheetUrl }];
 };
@@ -25,7 +26,7 @@ export const meta: MetaFunction = () => ({
   viewport: "width=device-width,initial-scale=1",
 });
 
-export const loader = () => {
+export const loader = async ({ request }: LoaderArgs) => {
   const { SUPABASE_URL, SUPABASE_ANON_KEY } = process.env;
   return json({
     env: {
@@ -117,7 +118,7 @@ export function CatchBoundary() {
                 {caught.status}
               </h2>
               <p className="yellow text-2xl font-semibold dark:text-yellow-600 md:text-3xl">
-                Sorry, we couldn't find this page.
+                Sorry, we couldn't fix this right now.
               </p>
               <p className="mt-4 mb-8 dark:text-yellow-600">
                 But dont worry, you can find plenty of other things on our

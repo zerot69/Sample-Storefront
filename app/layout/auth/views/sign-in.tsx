@@ -1,14 +1,24 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
-import React from "react";
-import { Form, Link, useActionData, useSearchParams } from "@remix-run/react";
-
-import type { SignInServices } from "../services";
+import React, { useEffect } from "react";
+import toast, { Toaster } from "react-hot-toast";
+import { Form, Link, useActionData } from "@remix-run/react";
 
 export const SignInLayout = () => {
-  const [searchParams] = useSearchParams();
-  const actionData = useActionData<typeof SignInServices.action>();
+  const actionData = useActionData();
   const emailRef = React.useRef<HTMLInputElement>(null);
   const passwordRef = React.useRef<HTMLInputElement>(null);
+
+  useEffect(() => {
+    console.log(JSON.stringify(actionData));
+  }, [actionData]);
+
+  useEffect(() => {
+    if (actionData && actionData.message)
+      toast.error("Error: " + actionData.message + ". Please try again!");
+    if (actionData && actionData.user)
+      toast.success("Email: " + actionData.user + ".");
+  }, [actionData]);
+
   return (
     <div className="flex min-h-full w-full flex-col justify-center">
       <div className="mx-auto w-full max-w-md px-8">
@@ -32,15 +42,10 @@ export const SignInLayout = () => {
                 name="email"
                 type="email"
                 autoComplete="email"
-                aria-invalid={actionData?.errors?.email ? true : undefined}
+                aria-invalid={actionData ? true : undefined}
                 aria-describedby="email-error"
                 className="w-full rounded border border-gray-500 px-2 py-1 text-lg"
               />
-              {actionData?.errors?.email && (
-                <div className="pt-1 text-red-700" id="email-error">
-                  {actionData.errors.email}
-                </div>
-              )}
             </div>
           </div>
 
@@ -58,19 +63,12 @@ export const SignInLayout = () => {
                 name="password"
                 type="password"
                 autoComplete="current-password"
-                aria-invalid={actionData?.errors?.password ? true : undefined}
+                aria-invalid={actionData ? true : undefined}
                 aria-describedby="password-error"
                 className="w-full rounded border border-gray-500 px-2 py-1 text-lg"
               />
-              {actionData?.errors?.password && (
-                <div className="pt-1 text-red-700" id="password-error">
-                  {actionData.errors.password}
-                </div>
-              )}
             </div>
           </div>
-
-          {/* <input type="hidden" name="redirectTo" value={redirectTo} /> */}
           <button
             type="submit"
             className="w-full rounded bg-yellow-400  py-2 px-4 text-white hover:bg-yellow-500 focus:bg-yellow-300"
@@ -94,20 +92,32 @@ export const SignInLayout = () => {
             </div>
             <div className="text-center text-sm text-gray-500">
               Don't have an account?{" "}
-              <Link
-                className="text-yellow-400 underline"
-                to={{
-                  pathname: "/auth/sign-up",
-                  search: searchParams.toString(),
-                }}
-              >
+              <Link className="text-yellow-400 underline" to="/auth/sign-up">
                 Sign up
               </Link>
             </div>
           </div>
         </Form>
-        <></>
       </div>
+      <Toaster
+        position="bottom-right"
+        toastOptions={{
+          duration: 3000,
+          style: {
+            background: "rgba(251, 191, 36)",
+            color: "#fff",
+          },
+          iconTheme: {
+            primary: "white",
+            secondary: "black",
+          },
+          error: {
+            style: {
+              background: "rgba(239, 68, 68)",
+            },
+          },
+        }}
+      />
     </div>
   );
 };

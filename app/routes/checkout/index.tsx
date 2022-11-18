@@ -1,9 +1,10 @@
 import { useState } from "react";
 import toast, { Toaster } from "react-hot-toast";
-import { Link } from "@remix-run/react";
+import { FaGooglePay, FaPaypal } from "react-icons/fa";
+import { RiMastercardFill, RiVisaLine } from "react-icons/ri";
+import { Form, Link } from "@remix-run/react";
 
-export default function AboutRoute() {
-  // Change cart here <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+export default function CheckoutRoute() {
   const [cart, setCart] = useState(() => {
     return typeof window !== "undefined"
       ? JSON.parse(localStorage.getItem("cart")!) || [{}]
@@ -44,7 +45,11 @@ export default function AboutRoute() {
           {"< "} Continue shopping
         </Link>
       </div>
-      <div className="grid w-full  max-w-screen-2xl items-baseline gap-12 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3">
+      <Form
+        method="post"
+        action="/checkout/confirmation"
+        className="grid w-full  max-w-screen-2xl items-baseline gap-12 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3"
+      >
         <div className="lg:col-span-2">
           <h2 className="text-lg font-medium">Customer Information</h2>
           <div className="mt-4 rounded-xl bg-white shadow-lg">
@@ -55,6 +60,8 @@ export default function AboutRoute() {
                   <input
                     className="text-md mt-1 flex h-10 w-full items-center rounded border px-4"
                     type="text"
+                    id="firstName"
+                    name="firstName"
                     required
                   />
                 </div>
@@ -63,6 +70,8 @@ export default function AboutRoute() {
                   <input
                     className="text-md mt-1 flex h-10 w-full items-center rounded border px-4"
                     type="text"
+                    id="lastName"
+                    name="lastName"
                     required
                   />
                 </div>
@@ -71,6 +80,8 @@ export default function AboutRoute() {
                   <input
                     className="text-md mt-1 flex h-10 w-full items-center rounded border px-4"
                     type="email"
+                    id="email"
+                    name="email"
                     required
                   />
                 </div>
@@ -79,6 +90,8 @@ export default function AboutRoute() {
                   <input
                     className="text-md mt-1 flex h-10 w-full items-center rounded border px-4"
                     type="phone"
+                    id="phone"
+                    name="phone"
                     required
                   />
                 </div>
@@ -87,6 +100,8 @@ export default function AboutRoute() {
                   <input
                     className="text-md mt-1 flex h-10 w-full items-center rounded border px-4"
                     type="text"
+                    id="address"
+                    name="address"
                     required
                   />
                 </div>
@@ -97,6 +112,8 @@ export default function AboutRoute() {
                   <input
                     className="text-md mt-1 flex h-10 w-full items-center rounded border px-4"
                     type="text"
+                    id="apartment"
+                    name="apartment"
                     placeholder="(optional)"
                   />
                 </div>
@@ -105,7 +122,9 @@ export default function AboutRoute() {
                   <input
                     className="text-md mt-1 flex h-10 w-full items-center rounded border px-4"
                     type="text"
-                    pattern="[0-9]{5}"
+                    pattern="\b\d{5}\b|\b\d{6}\b"
+                    id="zipcode"
+                    name="zipcode"
                     required
                   />
                 </div>
@@ -114,6 +133,8 @@ export default function AboutRoute() {
                   <input
                     className="text-md mt-1 flex h-10 w-full items-center rounded border px-4"
                     type="text"
+                    id="city"
+                    name="city"
                     required
                   />
                 </div>
@@ -122,7 +143,8 @@ export default function AboutRoute() {
                   <input
                     className="text-md mt-1 flex h-10 w-full items-center rounded border px-4"
                     type="text"
-                    required
+                    id="state"
+                    name="state"
                   />
                 </div>
                 <div>
@@ -130,6 +152,96 @@ export default function AboutRoute() {
                   <input
                     className="text-md mt-1 flex h-10 w-full items-center rounded border px-4"
                     type="text"
+                    id="country"
+                    name="country"
+                    required
+                  />
+                </div>
+              </div>
+            </div>
+          </div>
+          <h2 className="mt-8 text-lg font-medium">Payment Method</h2>
+          <div className="mt-4 rounded-xl bg-white shadow-lg">
+            <div className="py-4">
+              <div className="my-4 grid grid-cols-2 gap-4 px-8">
+                <div className="col-span-2">
+                  <Link to="/about">
+                    <button className="text-md mt-1 flex h-10 w-full items-center justify-center rounded border bg-yellow-400 px-4 font-semibold text-white hover:bg-yellow-500">
+                      Pay with ECO
+                    </button>
+                  </Link>
+                </div>
+                <div>
+                  <Link to="#">
+                    <button className="text-md mt-1 flex h-10 w-full items-center justify-center rounded border bg-yellow-400 px-4 font-semibold text-white hover:bg-yellow-500">
+                      Pay with <FaPaypal style={{ marginLeft: 8 }} />
+                    </button>
+                  </Link>
+                </div>
+                <div>
+                  <Link to="#">
+                    <button className="text-md mt-1 flex h-10 w-full items-center justify-center rounded border bg-yellow-400 px-4 font-semibold text-white hover:bg-yellow-500">
+                      Pay with{" "}
+                      <FaGooglePay style={{ marginLeft: 8 }} size={40} />
+                    </button>
+                  </Link>
+                </div>
+              </div>
+            </div>
+            <div className="flex flex-row items-center justify-center">
+              <hr className="w-full border" />
+              <p className="flex flex-shrink-0 items-center px-4 text-base leading-4 text-gray-500">
+                or pay with card{" "}
+                <RiVisaLine style={{ marginLeft: 8 }} size={40} />{" "}
+                <RiMastercardFill style={{ marginLeft: 8 }} size={40} />
+              </p>
+              <hr className="w-full border" />
+            </div>
+            <div className="py-4">
+              <div className="my-4 grid grid-cols-2 gap-4 px-8 pb-8">
+                <div className="col-span-2">
+                  <label className="text-md font-semibold">Name on card</label>
+                  <input
+                    className="text-md mt-1 flex h-10 w-full items-center rounded border px-4"
+                    type="text"
+                    id="cardName"
+                    name="cardName"
+                    required
+                  />
+                </div>
+                <div className="col-span-2">
+                  <label className="text-md font-semibold">Card number</label>
+                  <input
+                    className="text-md mt-1 flex h-10 w-full items-center rounded border px-4"
+                    type="tel"
+                    pattern="[0-9\s]{13,19}"
+                    id="cardNumber"
+                    name="cardNumber"
+                    required
+                  />
+                </div>
+                <div>
+                  <label className="text-md font-semibold">Expiry date</label>
+                  <input
+                    className="text-md mt-1 flex h-10 w-full items-center rounded border px-4"
+                    type="month"
+                    min="2022-01"
+                    max="2029-12"
+                    id="cardExpiry"
+                    name="cardExpiry"
+                    required
+                  />
+                </div>
+                <div>
+                  <label className="text-md font-semibold">CVV/CVC</label>
+                  <input
+                    className="text-md mt-1 flex h-10 w-full items-center rounded border px-4"
+                    type="password"
+                    minLength={3}
+                    maxLength={3}
+                    pattern="[0-9]{3}"
+                    id="cardCvc"
+                    name="cardCvc"
                     required
                   />
                 </div>
@@ -137,8 +249,8 @@ export default function AboutRoute() {
             </div>
           </div>
         </div>
-        <div>
-          <h2 className="text-lg font-medium">Purchase Summary</h2>
+        <div className="sticky top-24">
+          <h2 className="text-lg font-medium ">Purchase Summary</h2>
           {JSON.stringify(cart[0]) === JSON.stringify({}) ||
           JSON.stringify(cart) === JSON.stringify([]) ? (
             <div className="mt-4 items-center justify-center rounded-xl bg-white py-6 shadow-lg">
@@ -164,7 +276,7 @@ export default function AboutRoute() {
                         </p>
                       </Link>
                       <span className="ml-auto text-sm font-semibold">
-                        ${item.price * item.quantity}
+                        ${(item.price * item.quantity).toFixed(2)}
                       </span>
                     </div>
                     <div className="flex items-end">
@@ -194,17 +306,19 @@ export default function AboutRoute() {
                 <div className="flex items-end justify-between">
                   <span className="text-sm font-semibold">Sub-total</span>
                   <span className="mb-px text-sm text-gray-500">
-                    ${subtotal}
+                    ${subtotal.toFixed(2)}
                   </span>
                 </div>
                 <div className="flex items-end justify-between">
                   <span className="text-sm font-semibold">Tax</span>
-                  <span className="mb-px text-sm text-gray-500">${tax}</span>
+                  <span className="mb-px text-sm text-gray-500">
+                    ${tax.toFixed(2)}
+                  </span>
                 </div>
                 <div className="flex items-end justify-between">
                   <span className="text-sm font-semibold">Shipping</span>
                   <span className="mb-px text-sm text-gray-500">
-                    ${shipping}
+                    ${shipping.toFixed(2)}
                   </span>
                 </div>
               </div>
@@ -212,38 +326,41 @@ export default function AboutRoute() {
                 <div className="flex items-end justify-between">
                   <span className="font-semibold">Total</span>
                   <span className="font-semibold">
-                    ${Math.round((subtotal + tax + shipping) * 100) / 100}
+                    $
+                    {(
+                      Math.round((subtotal + tax + shipping) * 100) / 100
+                    ).toFixed(2)}
                   </span>
                 </div>
                 <span className="mt-2 text-xs text-gray-500">
                   Save more with{" "}
-                  <Link to="#" className="text-yellow-500">
+                  <Link to="/about" className="text-yellow-500">
                     Eco Premium
                   </Link>
                 </span>
               </div>
+              <input type="hidden" value={JSON.stringify(cart)} name="cart" />
               <div className="mt-8 flex items-center px-8">
-                <input id="termsConditions" type="checkbox" required />
-                <label
-                  className="ml-2 text-xs text-gray-500"
-                  htmlFor="termsConditions"
-                >
-                  I agree to the{" "}
+                <div className="text-xs text-gray-500">
+                  By continuing, you agree to the{" "}
                   <Link to="/about" className="text-yellow-500" target="_blank">
                     Terms and conditions
                   </Link>
                   .
-                </label>
+                </div>
               </div>
               <div className="flex flex-col px-8 pt-4">
-                <button className="flex h-10 w-full items-center justify-center rounded bg-yellow-400 text-sm font-medium text-white hover:bg-yellow-500">
+                <button
+                  type="submit"
+                  className="flex h-10 w-full items-center justify-center rounded bg-yellow-400 text-sm font-medium text-white hover:bg-yellow-500"
+                >
                   Checkout
                 </button>
               </div>
             </div>
           )}
         </div>
-      </div>
+      </Form>
       <Toaster
         position="bottom-right"
         toastOptions={{

@@ -1,19 +1,8 @@
-import { IsDate, IsEmail, IsEnum, IsString } from "class-validator";
-
-import { EGender } from "~/interfaces/db.interface";
+import { IsEmail, IsString } from "class-validator";
 
 export class SignUpInput {
   @IsEmail()
   email: string;
   @IsString()
   password: string;
-  @IsString()
-  first_name: string;
-  @IsString()
-  last_name: string;
-  @IsDate()
-  dob: Date;
-
-  @IsEnum(EGender)
-  gender: EGender;
 }

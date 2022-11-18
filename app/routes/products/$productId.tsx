@@ -70,7 +70,7 @@ export default function ProductRoute() {
       id: id,
       name: name,
       quantity: quantity,
-      price: price,
+      price: parseInt(price),
     };
     if (currentCart.length === 0) {
       currentCart.push(item);
@@ -177,6 +177,7 @@ export default function ProductRoute() {
                 <Link
                   to={`/products/${product.id}/reviews`}
                   className="text-sm font-medium text-gray-700 no-underline"
+                  prefetch="intent"
                 >
                   {product.reviews?.length} reviews
                 </Link>

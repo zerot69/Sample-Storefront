@@ -1,26 +1,7 @@
-import { useEffect, useMemo, useState } from "react";
 import { BiShoppingBag } from "react-icons/bi";
 import { Link, NavLink } from "@remix-run/react";
 
 export default function Header() {
-  // let cart = useMemo(() => [], []);
-  // if (typeof window !== "undefined") {
-  //   cart = JSON.parse(localStorage.getItem("cart")!) || [];
-  // }
-
-  // const [item, setItem] = useState(
-  //   cart.reduce((total: any, item: any) => (total = total + item.quantity), 0)
-  // );
-
-  // useEffect(() => {
-  //   setItem([
-  //     ...cart.reduce(
-  //       (total: any, item: any) => (total = total + item.quantity),
-  //       0
-  //     ),
-  //   ]);
-  // }, [cart]);
-
   const links = [
     {
       label: "Home",
@@ -35,12 +16,16 @@ export default function Header() {
       url: "/category",
     },
     {
+      label: "Orders",
+      url: "/orders",
+    },
+    {
       label: "About",
       url: "/about",
     },
   ];
   return (
-    <nav className="fixed top-0 left-0 z-20 flex w-full items-center justify-between border-b border-gray-200 bg-white bg-opacity-30 px-8 pt-2 shadow-md backdrop-blur-lg backdrop-filter dark:border-gray-600">
+    <nav className="fixed top-0 left-0 z-20 flex w-full items-center justify-between border-b border-gray-200 bg-gray-100 bg-opacity-30 px-8 pt-2 shadow-md backdrop-blur-lg backdrop-filter dark:border-gray-600">
       {/* Site Logo */}
       <div className="font-mono text-3xl font-extrabold uppercase">
         <Link to="/">
@@ -54,6 +39,7 @@ export default function Header() {
           <NavLink
             key={index}
             to={link.url}
+            prefetch="render"
             className="navlink hover:text-yellow-500"
           >
             {link.label}

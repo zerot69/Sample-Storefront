@@ -1,9 +1,14 @@
-import { Link } from "@remix-run/react";
+import { json, redirect } from "@remix-run/node";
+import { Link, useLoaderData } from "@remix-run/react";
 
-// import { useOptionalUser } from "~/utils";
+export const loader = async ({ request }: { request: Request }) => {
+  const userEmail = null;
+  return json({ userEmail });
+};
 
 export default function Index() {
-  // const user = useOptionalUser();
+  const data = useLoaderData();
+
   return (
     <main className="relative min-h-screen min-w-full items-center pt-16 sm:block sm:justify-center">
       <div className="relative w-full overflow-hidden">
@@ -94,20 +99,32 @@ export default function Index() {
                 </Link>
               </div>
 
-              <div className="space-x-5">
-                <Link
-                  to="/auth/sign-in"
-                  className="color mt-8 inline-block rounded-md bg-yellow-400 px-8 py-3 font-medium text-white transition duration-300 hover:scale-105 hover:bg-yellow-500"
-                >
-                  Log in
-                </Link>
-                <Link
-                  to="/auth/sign-up"
-                  className="color mt-8 inline-block rounded-md bg-yellow-400 px-8 py-3 font-medium text-white transition duration-300 hover:scale-105 hover:bg-yellow-500"
-                >
-                  Sign up
-                </Link>
-              </div>
+              {data.userEmail ? (
+                <>
+                  <Link
+                    to="/logout"
+                    className="color mt-8 inline-block rounded-md bg-yellow-400 px-8 py-3 font-medium text-white transition duration-300 hover:scale-105 hover:bg-red-500"
+                  >
+                    Logout
+                  </Link>
+                  <pre>{JSON.stringify(data.userEmail)}</pre>
+                </>
+              ) : (
+                <div className="space-x-5">
+                  <Link
+                    to="/auth/sign-in"
+                    className="color mt-8 inline-block rounded-md bg-yellow-400 px-8 py-3 font-medium text-white transition duration-300 hover:scale-105 hover:bg-yellow-500"
+                  >
+                    Log in
+                  </Link>
+                  <Link
+                    to="/auth/sign-up"
+                    className="color mt-8 inline-block rounded-md bg-yellow-400 px-8 py-3 font-medium text-white transition duration-300 hover:scale-105 hover:bg-yellow-500"
+                  >
+                    Sign up
+                  </Link>
+                </div>
+              )}
             </div>
           </div>
         </div>

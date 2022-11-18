@@ -48,7 +48,7 @@ export default function CategoryIndexPage() {
         <div className="aspect-w-3 aspect-h-4 relative hidden overflow-hidden rounded-lg lg:block">
           <Link to="/category/Books">
             <img
-              src={`https://scontent.fsgn13-3.fna.fbcdn.net/v/t39.30808-6/225713481_148469094091375_5657303018074514117_n.jpg?_nc_cat=108&ccb=1-7&_nc_sid=e3f864&_nc_ohc=llyykBUvEtoAX_WbSE1&_nc_ht=scontent.fsgn13-3.fna&oh=00_AfDz81bFhVU7xmfNwRPkxddT7j2qshioovrR14UugPiWBA&oe=636A7EE3`}
+              src={`https://static01.nyt.com/images/2020/11/12/books/review/12books-announcement/12books-announcement-mediumSquareAt3X.jpg`}
               alt={`alt`}
               className="h-full w-full object-cover object-center blur-sm transition duration-300 hover:scale-110"
             />
