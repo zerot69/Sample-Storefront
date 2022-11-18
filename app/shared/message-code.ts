@@ -50,6 +50,7 @@ export const ERROR_CODE = {
     LOGIN_FAIL: "422a",
     SIGN_IN_FAIL: "422b",
     DUPLICATE_EMAIL: "422c",
+    CHECKOUT_FAIL: "422d",
   },
   /**
    * @type: INTERNAL_SERVER_ERROR

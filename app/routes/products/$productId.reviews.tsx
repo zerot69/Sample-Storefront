@@ -23,8 +23,8 @@ export default function ProductReviewsRoute() {
         </div>
         <div className="flex flex-col space-y-6 pb-4 pl-6 pr-20 pt-20">
           <h6>
-            <Link to="/" className="font-semibold text-yellow-500">
-              Home
+            <Link to="/products" className="font-semibold text-yellow-500">
+              Products
             </Link>{" "}
             /{" "}
             <Link

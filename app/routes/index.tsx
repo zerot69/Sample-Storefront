@@ -1,9 +1,14 @@
-import { Link } from "@remix-run/react";
+import { json, redirect } from "@remix-run/node";
+import { Link, useLoaderData } from "@remix-run/react";
 
-// import { useOptionalUser } from "~/utils";
+export const loader = async ({ request }: { request: Request }) => {
+  const userEmail = null;
+  return json({ userEmail });
+};
 
 export default function Index() {
-  // const user = useOptionalUser();
+  const data = useLoaderData();
+
   return (
     <main className="relative min-h-screen min-w-full items-center pt-16 sm:block sm:justify-center">
       <div className="relative w-full overflow-hidden">
@@ -88,26 +93,38 @@ export default function Index() {
 
                 <Link
                   to="/products"
-                  className="inline-block rounded-md border-2 border-transparent border-yellow-400 bg-white py-3 px-8 text-center font-medium text-gray-900 transition duration-300 hover:scale-110 hover:bg-gray-50"
+                  className="inline-block rounded-md border-2 border-transparent border-yellow-400 bg-white py-3 px-8 text-center font-medium text-gray-900 transition duration-300 hover:scale-110 hover:bg-yellow-500 hover:text-white"
                 >
                   To the Shop
                 </Link>
               </div>
 
-              <div className="space-x-5">
-                <Link
-                  to="/auth/sign-in"
-                  className="color mt-8 inline-block rounded-md bg-yellow-400 px-8 py-3 font-medium text-white transition duration-300 hover:scale-105 hover:bg-yellow-500"
-                >
-                  Log in
-                </Link>
-                <Link
-                  to="/auth/sign-up"
-                  className="color mt-8 inline-block rounded-md bg-yellow-400 px-8 py-3 font-medium text-white transition duration-300 hover:scale-105 hover:bg-yellow-500"
-                >
-                  Sign up
-                </Link>
-              </div>
+              {data.userEmail ? (
+                <>
+                  <Link
+                    to="/logout"
+                    className="color mt-8 inline-block rounded-md bg-yellow-400 px-8 py-3 font-medium text-white transition duration-300 hover:scale-105 hover:bg-red-500"
+                  >
+                    Logout
+                  </Link>
+                  <pre>{JSON.stringify(data.userEmail)}</pre>
+                </>
+              ) : (
+                <div className="space-x-5">
+                  <Link
+                    to="/auth/sign-in"
+                    className="color mt-8 inline-block rounded-md bg-yellow-400 px-8 py-3 font-medium text-white transition duration-300 hover:scale-105 hover:bg-yellow-500"
+                  >
+                    Log in
+                  </Link>
+                  <Link
+                    to="/auth/sign-up"
+                    className="color mt-8 inline-block rounded-md bg-yellow-400 px-8 py-3 font-medium text-white transition duration-300 hover:scale-105 hover:bg-yellow-500"
+                  >
+                    Sign up
+                  </Link>
+                </div>
+              )}
             </div>
           </div>
         </div>
