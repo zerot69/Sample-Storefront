@@ -1,5 +1,4 @@
-import type { LinksFunction, LoaderArgs, MetaFunction } from "@remix-run/node";
-import { json } from "@remix-run/node";
+import type { LinksFunction, MetaFunction } from "@remix-run/node";
 import {
   Link,
   Links,
@@ -9,7 +8,6 @@ import {
   Scripts,
   ScrollRestoration,
   useCatch,
-  useLoaderData,
 } from "@remix-run/react";
 
 import Layout from "./layouts";
@@ -26,30 +24,13 @@ export const meta: MetaFunction = () => ({
   viewport: "width=device-width,initial-scale=1",
 });
 
-export const loader = async ({ request }: LoaderArgs) => {
-  const { SUPABASE_URL, SUPABASE_ANON_KEY } = process.env;
-  return json({
-    env: {
-      SUPABASE_URL,
-      SUPABASE_ANON_KEY,
-    },
-  });
-};
-
 export default function App() {
-  const { env } = useLoaderData();
-
   return (
     <Document>
       <Layout>
         <Outlet />
         <ScrollRestoration />
         <Scripts />
-        <script
-          dangerouslySetInnerHTML={{
-            __html: `window.env = ${JSON.stringify(env)}`,
-          }}
-        />
         <LiveReload />
       </Layout>
     </Document>
@@ -78,21 +59,19 @@ export function ErrorBoundary({ error }: { error: any }) {
   return (
     <Document>
       <Layout>
-        <div className="container mx-auto my-8 flex flex-col items-center justify-center px-5">
-          <div className="h-full min-h-screen pt-40 text-center">
-            <h1>Gratz! You found an error:</h1>
-            <p>{error.message}</p>
-            <p className="mt-4 mb-8">
-              You can still find plenty of other things on our website.
-            </p>
-            <Link
-              rel="noopener noreferrer"
-              to="/"
-              className="rounded bg-yellow-400 px-8 py-3 font-semibold text-white hover:bg-yellow-500"
-            >
-              Back to Home
-            </Link>
-          </div>
+        <div className="container mx-auto flex min-h-screen flex-col items-center justify-center px-5">
+          <h1>Gratz! You found an error:</h1>
+          <p>{error.message}</p>
+          <p className="mt-4 mb-8">
+            You can still find plenty of other things on our website.
+          </p>
+          <Link
+            rel="noopener noreferrer"
+            to="/"
+            className="rounded bg-yellow-400 px-8 py-3 font-semibold text-white hover:bg-yellow-500"
+          >
+            Back to Home
+          </Link>
         </div>
       </Layout>
     </Document>

@@ -1,9 +1,9 @@
-import { PrismaClient } from "@prisma/client";
 import { Link, useActionData } from "@remix-run/react";
 import { json } from "@remix-run/server-runtime";
 
+import { prisma } from "~/db.server";
+
 export async function action({ request }: { request: any }) {
-  const prisma = new PrismaClient();
   const orderCode = (
     (Math.random() + 1 + new Date().getTime() * (Math.random() + 1)) *
     10000
@@ -15,6 +15,7 @@ export async function action({ request }: { request: any }) {
   await prisma.orders.create({
     data: {
       order_code: orderCode,
+      total_amount: formData.get("totalAmount"),
       first_name: formData.get("firstName"),
       last_name: formData.get("lastName"),
       address:
@@ -45,8 +46,8 @@ export default function ConfirmationRoute() {
   localStorage.setItem("cart", JSON.stringify(null));
 
   return (
-    <div className="container mx-auto my-8 flex flex-col items-center justify-center px-5">
-      <h1 className="text-gray-00 p-8 pt-20 text-center text-5xl">
+    <div className="container mx-auto flex min-h-screen flex-col items-center justify-center px-5">
+      <h1 className="text-gray-00 p-8 text-center text-5xl">
         Thank you for your order!
       </h1>
       <p className="text-center text-lg">Order code: {data.orderCode}</p>

@@ -2,7 +2,6 @@ import * as React from "react";
 import type { ActionArgs, LoaderArgs, MetaFunction } from "@remix-run/node";
 import { json } from "@remix-run/node";
 import { Form, Link, useActionData, useSearchParams } from "@remix-run/react";
-import { createServerClient } from "@supabase/auth-helpers-remix";
 
 import { createUserSession } from "~/session.server";
 import { safeRedirect, validateEmail } from "~/utils";
@@ -35,25 +34,6 @@ export async function action({ request }: ActionArgs) {
   if (password.length < 8) {
     return json(
       { errors: { email: null, password: "Password is too short" } },
-      { status: 400 }
-    );
-  }
-
-  const response = new Response();
-  const supabaseClient = createServerClient(
-    process.env.SUPABASE_URL!,
-    process.env.SUPABASE_ANON_KEY!,
-    { request, response }
-  );
-  const { data }: { data: any; error: any } =
-    await supabaseClient.auth.signInWithPassword({
-      email,
-      password,
-    });
-
-  if (!data) {
-    return json(
-      { errors: { email: "Invalid email or password", password: null } },
       { status: 400 }
     );
   }

@@ -1,117 +1,141 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
 datasource db {
   provider = "mongodb"
   url      = env("DATABASE_URL")
 }
 
-generator client {
-  provider = "prisma-client-js"
+type OrdersCard {
+  cvc    String
+  expiry String
+  name   String
+  number String
 }
 
-type attribute {
+type OrdersItems {
+  id       String
+  name     String
+  price    Int
+  quantity Int
+}
+
+type ProductsAttribute {
+  active Boolean
   key    String
   value  String
-  active Boolean @default(true)
 }
 
-type categories {
+type ProductsCrawlAttribute {
+  active Boolean
   key    String
   value  String
-  active Boolean @default(true)
 }
 
-model users {
-  id         String   @id @default(auto()) @map("_id") @db.ObjectId
-  created_at DateTime @default(now())
-  updated_at DateTime @updatedAt
-  active     Boolean  @default(true)
+type ProductsCrawlDiscounts {
+  active Boolean
+  key    String
+  value  String
+}
 
-  email      String    @unique
-  password   String?
-  first_name String?
-  last_name  String?
-  dob        DateTime?
-  gender     String?
-  address    address[]
-  brands     brands?   @relation(fields: [brandsId], references: [id])
-  brandsId   String?   @db.ObjectId  
+type ProductsCrawlPromotions {
+  active Boolean
+  key    String
+  value  String
+}
+
+type ProductsDiscounts {
+  active Boolean
+  key    String
+  value  String
+}
+
+type ProductsPromotions {
+  active Boolean
+  key    String
+  value  String
+}
+
+type UsersActions {
+  active Boolean
+  key    String
+  value  String
 }
 
 model brands {
-  id         String    @id @default(auto()) @map("_id") @db.ObjectId
-  created_at DateTime  @default(now())
-  updated_at DateTime  @updatedAt
-  active     Boolean   @default(true)
-  products   products? @relation(fields: [productsId], references: [id])
-  productsId String?   @db.ObjectId
-
-  name        String
-  description String
-  busisnes    String
-  attribute   attribute[]
-  users       users[]
+  id String @id @default(auto()) @map("_id") @db.ObjectId
 }
 
-type address {
-  created_at DateTime @default(now())
-  active     Boolean  @default(true)
+model categories {
+  id String @id @default(auto()) @map("_id") @db.ObjectId
+}
 
-  name        String
-  description String
-  default     Boolean @default(false)
+model gotadi_transaction {
+  id String @id @default(auto()) @map("_id") @db.ObjectId
+}
 
-  phone    String
-  street   String
-  district String
-  province String
-  city     String
-  zipcode  Int
-  nation   String
+model orders {
+  id             String        @id @default(auto()) @map("_id") @db.ObjectId
+  created_at     DateTime      @db.Date @default(now())
+  order_code     String        @unique
+  total_amount   String
+  address        String
+  card           OrdersCard
+  email          String
+  first_name     String
+  items          OrdersItems[]
+  last_name      String
+  phone          String
 }
 
 model products {
-  id         String   @id @default(auto()) @map("_id") @db.ObjectId
-  created_at DateTime @default(now())
-  updated_at DateTime @updatedAt
-  active     Boolean  @default(true)
-
-  name        String
-  description String
-  attribute   attribute[]
-  categories  categories[]
-  images      String[]
-  price       Float
+  id          String               @id @default(auto()) @map("_id") @db.ObjectId
+  active      Boolean
+  attribute   ProductsAttribute[]
   base        Float
+  created_at  DateTime             @db.Date
+  description String
+  discounts   ProductsDiscounts[]
+  images      String[]
+  name        String
+  price       Float
+  promotions  ProductsPromotions[]
   quantity    Int
-  sold        attribute[]
-  views       attribute[]
-  comments    attribute[]
-  brands      brands[]
+  updated_at  DateTime             @db.Date
 }
 
-model orders {  
-  id          String   @id @default(auto()) @map("_id") @db.ObjectId
-  created_at  DateTime @default(now())
-  order_code  String   @unique
-  first_name  String
-  last_name   String
-  address     String?
-  email       String?
-  phone       String?
-  code        String?
-  card        card
-  items       items[]
+model products_crawl {
+  id          String                    @id @default(auto()) @map("_id") @db.ObjectId
+  active      Boolean
+  attribute   ProductsCrawlAttribute[]
+  base        Float
+  created_at  DateTime                  @db.Date
+  description String
+  discounts   ProductsCrawlDiscounts[]
+  images      String[]
+  name        String
+  price       Float
+  promotions  ProductsCrawlPromotions[]
+  quantity    Int
+  redirect    String
+  updated_at  DateTime                  @db.Date
 }
 
-type card {
-  name       String
-  number     String
-  expiry     String
-  cvc        String
+model test {
+  id String @id @default(auto()) @map("_id") @db.ObjectId
 }
 
-type items {
-  id         String
-  name       String  
-  quantity   Int
-  price      Int
+model users {
+  id         String         @id @default(auto()) @map("_id") @db.ObjectId
+  actions    UsersActions[]
+  active     Boolean        @default(true)
+  created_at DateTime       @db.Date @default(now())
+  dob        DateTime?      @db.Date
+  email      String         @unique
+  first_name String?
+  gender     String?
+  last_name  String?
+  password   String
+  updated_at DateTime       @db.Date @default(now())
 }

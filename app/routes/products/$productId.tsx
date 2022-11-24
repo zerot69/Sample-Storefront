@@ -3,31 +3,6 @@ import toast, { Toaster } from "react-hot-toast";
 import { BiShoppingBag } from "react-icons/bi";
 import { Link, useLoaderData } from "@remix-run/react";
 
-export function ErrorBoundary({ error }: { error: any }) {
-  return (
-    <section className="flex h-full min-h-screen w-full items-center">
-      <div className="container mx-auto my-8 flex flex-col items-center justify-center px-5">
-        <div className="max-w-lg text-center">
-          <p className="text-2xl font-semibold md:text-3xl">
-            Sorry! Something went wrong with this product.
-          </p>
-          <pre className="mt-4 mb-4">{error.message}</pre>
-          <p className="mt-4 mb-8">
-            You can still find plenty of other things on our website.
-          </p>
-          <Link
-            rel="noopener noreferrer"
-            to="/products"
-            className="rounded bg-yellow-400 px-8 py-3 font-semibold text-white hover:bg-yellow-500"
-          >
-            Back to Products
-          </Link>
-        </div>
-      </div>
-    </section>
-  );
-}
-
 export const loader = async ({ params }: { params: any }) => {
   try {
     const product = await fetch(
@@ -70,7 +45,7 @@ export default function ProductRoute() {
       id: id,
       name: name,
       quantity: quantity,
-      price: parseInt(price),
+      price: parseInt(price) * 1000,
     };
     if (currentCart.length === 0) {
       currentCart.push(item);
@@ -117,7 +92,7 @@ export default function ProductRoute() {
               {product.name}{" "}
             </h1>
             <p className="text-3xl font-semibold text-yellow-500">
-              ${product.price}
+              {(product.price * 1000).toLocaleString()}₫
             </p>
             <div>
               <p className="font-semibold">Select Quantity</p>

@@ -1,4 +1,3 @@
-/* eslint-disable jsx-a11y/anchor-has-content */
 import toast, { Toaster } from "react-hot-toast";
 import { Link, useLoaderData } from "@remix-run/react";
 
@@ -7,17 +6,11 @@ import SearchBar from "~/components/searchbar";
 
 export async function loader({ request }: { request: any }) {
   const searchData = new URL(request.url).searchParams.get("search");
-  let products;
-  if (searchData !== null) {
-    products = await fetch(
-      `https://635739669243cf412f94ec88.mockapi.io/Products?search=${searchData}`
-    );
-  } else {
-    products = await fetch(
-      `https://635739669243cf412f94ec88.mockapi.io/Products?page=1&limit=20`
-    );
-  }
-  return await products.json();
+  return await fetch(
+    searchData
+      ? `https://635739669243cf412f94ec88.mockapi.io/Products?search=${searchData}`
+      : `https://635739669243cf412f94ec88.mockapi.io/Products?page=1&limit=20`
+  );
 }
 
 export default function ProductIndexPage() {
@@ -34,7 +27,7 @@ export default function ProductIndexPage() {
       id: id,
       name: name,
       quantity: quantity,
-      price: parseInt(price),
+      price: parseInt(price) * 1000,
     };
     if (currentCart.length === 0) {
       currentCart.push(item);
@@ -61,7 +54,7 @@ export default function ProductIndexPage() {
           to="/products/tgdd"
           className="text-yellow-500 hover:text-yellow-600"
         >
-          Eco Store x Thế giới di động
+          Eco Store ✕ Thế giới di động
         </Link>
       </div>
 
@@ -93,7 +86,7 @@ export default function ProductIndexPage() {
                       {product.description}
                     </p>
                     <p className="py-2 text-center text-lg font-bold text-yellow-400">
-                      ${product.price}
+                      {(product.price * 1000).toLocaleString()}₫
                     </p>
                   </div>
                 </Link>
