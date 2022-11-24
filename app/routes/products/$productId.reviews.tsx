@@ -1,4 +1,3 @@
-import React from "react";
 import { Link, useLoaderData } from "@remix-run/react";
 
 export const loader = async ({ params }: { params: any }) => {

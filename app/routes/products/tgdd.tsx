@@ -1,28 +1,24 @@
 import toast, { Toaster } from "react-hot-toast";
-import { PrismaClient } from "@prisma/client";
 import { Link, useLoaderData } from "@remix-run/react";
 
 import Pagination from "~/components/pagination";
 import SearchBar from "~/components/searchbar";
+import { prisma } from "~/db.server";
 
 export async function loader({ request }: { request: any }) {
-  const prisma = new PrismaClient();
   const searchData = new URL(request.url).searchParams.get("search");
-  let products;
-  if (searchData !== null) {
-    products = await prisma.products.findMany({
-      where: {
-        name: {
-          contains: searchData,
+  return await (searchData
+    ? prisma.products_crawl.findMany({
+        where: {
+          name: {
+            contains: searchData,
+            mode: "insensitive",
+          },
         },
-      },
-    });
-  } else {
-    products = await prisma.products.findMany({
-      take: 100,
-    });
-  }
-  return await products;
+      })
+    : prisma.products_crawl.findMany({
+        take: 100,
+      }));
 }
 
 export default function ProductIndexPage() {
@@ -60,7 +56,7 @@ export default function ProductIndexPage() {
   return (
     <div className="mt-8 w-full pb-40">
       <h1 className="text-gray-00 p-8 pt-20 pl-24 text-5xl">
-        Eco Store - Thegioididong
+        Eco Store ✕ Thegioididong
       </h1>
 
       <SearchBar />
@@ -75,7 +71,7 @@ export default function ProductIndexPage() {
           {products.map((product: any) => (
             <div key={product.id}>
               <section className="w-80 rounded-lg bg-white shadow-md hover:shadow-lg">
-                <Link to={"#"} prefetch="none">
+                <Link to={`/products/tgdd/${product.id}`}>
                   <div className="overflow-hidden">
                     <img
                       className="h-80 w-80 object-scale-down object-center duration-300 hover:scale-125 lg:h-80 lg:w-80"
@@ -93,7 +89,7 @@ export default function ProductIndexPage() {
                     <p className="py-2 text-center text-lg font-bold text-yellow-400">
                       {product.base ? (
                         <p className="py-2 text-center text-lg font-bold text-yellow-400">
-                          <span className="font-light text-gray-600 line-through">
+                          <span className="text-base font-light text-gray-600 line-through">
                             {product.base.toLocaleString()}₫
                           </span>{" "}
                           {product.price.toLocaleString()}₫

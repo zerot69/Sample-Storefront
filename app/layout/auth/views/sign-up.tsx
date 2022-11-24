@@ -16,7 +16,7 @@ export const SignUpLayout = () => {
   }, [actionData]);
 
   return (
-    <div className="flex min-h-full w-full flex-col justify-center">
+    <div className="flex min-h-screen w-full flex-col justify-center">
       <div className="mx-auto w-full max-w-md px-8">
         <Form method="post" className="space-y-6">
           <h1 className="pb-14 text-center align-middle text-5xl font-bold text-gray-800">
@@ -74,7 +74,7 @@ export const SignUpLayout = () => {
           <div className="flex items-center justify-center">
             <div className="text-center text-sm text-gray-500">
               Already have an account?{" "}
-              <Link className="text-yellow-400 underline" to="/auth/sign-in">
+              <Link className="text-yellow-400 underline" to="/sign-in">
                 Log in
               </Link>
             </div>

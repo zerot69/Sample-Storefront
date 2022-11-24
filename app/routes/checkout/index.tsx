@@ -16,16 +16,13 @@ export default function CheckoutRoute() {
     0
   );
 
-  const subtotal =
-    Math.round(
-      cart.reduce(
-        (total: any, currentValue: any) =>
-          (total = total + currentValue.price * currentValue.quantity),
-        0
-      ) * 100
-    ) / 100;
-  const tax = Math.round(subtotal * 0.05 * 100) / 100;
-  const shipping = 5;
+  const subtotal = cart.reduce(
+    (total: any, currentValue: any) =>
+      (total = total + currentValue.price * currentValue.quantity),
+    0
+  );
+  const tax = subtotal * 0.05;
+  const shipping = 50000;
 
   const handleRemoveItem = (id: any) => {
     for (let i = 0; i < cart.length; i++) {
@@ -276,7 +273,7 @@ export default function CheckoutRoute() {
                         </p>
                       </Link>
                       <span className="ml-auto text-sm font-semibold">
-                        ${(item.price * item.quantity).toFixed(2)}
+                        {(item.price * item.quantity).toLocaleString()}đ
                       </span>
                     </div>
                     <div className="flex items-end">
@@ -306,19 +303,19 @@ export default function CheckoutRoute() {
                 <div className="flex items-end justify-between">
                   <span className="text-sm font-semibold">Sub-total</span>
                   <span className="mb-px text-sm text-gray-500">
-                    ${subtotal.toFixed(2)}
+                    {subtotal.toLocaleString()}đ
                   </span>
                 </div>
                 <div className="flex items-end justify-between">
                   <span className="text-sm font-semibold">Tax</span>
                   <span className="mb-px text-sm text-gray-500">
-                    ${tax.toFixed(2)}
+                    {tax.toLocaleString()}đ
                   </span>
                 </div>
                 <div className="flex items-end justify-between">
                   <span className="text-sm font-semibold">Shipping</span>
                   <span className="mb-px text-sm text-gray-500">
-                    ${shipping.toFixed(2)}
+                    {shipping.toLocaleString()}đ
                   </span>
                 </div>
               </div>
@@ -326,10 +323,7 @@ export default function CheckoutRoute() {
                 <div className="flex items-end justify-between">
                   <span className="font-semibold">Total</span>
                   <span className="font-semibold">
-                    $
-                    {(
-                      Math.round((subtotal + tax + shipping) * 100) / 100
-                    ).toFixed(2)}
+                    {(subtotal + tax + shipping).toLocaleString()}đ
                   </span>
                 </div>
                 <span className="mt-2 text-xs text-gray-500">
@@ -339,6 +333,11 @@ export default function CheckoutRoute() {
                   </Link>
                 </span>
               </div>
+              <input
+                type="hidden"
+                value={subtotal + tax + shipping}
+                name="totalAmount"
+              />
               <input type="hidden" value={JSON.stringify(cart)} name="cart" />
               <div className="mt-8 flex items-center px-8">
                 <div className="text-xs text-gray-500">

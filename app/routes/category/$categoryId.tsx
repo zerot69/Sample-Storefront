@@ -1,4 +1,3 @@
-/* eslint-disable jsx-a11y/anchor-has-content */
 import { Link, useLoaderData } from "@remix-run/react";
 
 import Pagination from "~/components/pagination";

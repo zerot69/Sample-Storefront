@@ -20,7 +20,7 @@ export const SignInLayout = () => {
   }, [actionData]);
 
   return (
-    <div className="flex min-h-full w-full flex-col justify-center">
+    <div className="flex min-h-screen w-full flex-col justify-center">
       <div className="mx-auto w-full max-w-md px-8">
         <Form method="post" className="space-y-6">
           <div>
@@ -92,7 +92,7 @@ export const SignInLayout = () => {
             </div>
             <div className="text-center text-sm text-gray-500">
               Don't have an account?{" "}
-              <Link className="text-yellow-400 underline" to="/auth/sign-up">
+              <Link className="text-yellow-400 underline" to="/sign-up">
                 Sign up
               </Link>
             </div>

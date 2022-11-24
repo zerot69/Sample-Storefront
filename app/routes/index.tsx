@@ -1,4 +1,4 @@
-import { json, redirect } from "@remix-run/node";
+import { json } from "@remix-run/node";
 import { Link, useLoaderData } from "@remix-run/react";
 
 export const loader = async ({ request }: { request: Request }) => {
@@ -10,7 +10,7 @@ export default function Index() {
   const data = useLoaderData();
 
   return (
-    <main className="relative min-h-screen min-w-full items-center pt-16 sm:block sm:justify-center">
+    <main className="relative mb-60 min-h-max min-w-full items-center pt-16 sm:block sm:justify-center">
       <div className="relative w-full overflow-hidden">
         <div className="pt-16 pb-80 sm:pt-24 sm:pb-40 lg:pt-40 lg:pb-48">
           <div className="relative mx-auto max-w-7xl px-4 sm:static sm:px-6 lg:px-8">
@@ -112,19 +112,31 @@ export default function Index() {
               ) : (
                 <div className="space-x-5">
                   <Link
-                    to="/auth/sign-in"
+                    to="/sign-in"
                     className="color mt-8 inline-block rounded-md bg-yellow-400 px-8 py-3 font-medium text-white transition duration-300 hover:scale-105 hover:bg-yellow-500"
                   >
                     Log in
                   </Link>
                   <Link
-                    to="/auth/sign-up"
+                    to="/sign-up"
                     className="color mt-8 inline-block rounded-md bg-yellow-400 px-8 py-3 font-medium text-white transition duration-300 hover:scale-105 hover:bg-yellow-500"
                   >
                     Sign up
                   </Link>
                 </div>
               )}
+            </div>
+            <div className="mt-8 sm:max-w-lg">
+              <p className="text-xl text-gray-500">
+                You are an admin? Click the button below to go to the Admin
+                Dashboard.
+              </p>
+              <Link
+                to="/admin"
+                className="color mt-8 inline-block rounded-md bg-yellow-400 px-8 py-3 font-medium text-white transition duration-300 hover:scale-105 hover:bg-yellow-500"
+              >
+                Take me there!
+              </Link>
             </div>
           </div>
         </div>
