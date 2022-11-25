@@ -12,7 +12,7 @@ export default function ProductReviewsRoute() {
 
   return (
     <div className="w-full pt-16">
-      <div className="grid items-baseline md:grid-cols-2">
+      <div className="grid items-start md:grid-cols-2">
         <div>
           <img
             className="m-16 aspect-square h-4/5 w-4/5 transform justify-center overflow-hidden rounded-2xl bg-white object-scale-down object-center shadow-xl transition duration-500 ease-in-out hover:-translate-y-1 hover:shadow-2xl"

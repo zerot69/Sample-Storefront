@@ -83,12 +83,18 @@ export default function ProductIndexPage() {
     <div className="mt-8 w-full pb-40">
       <h1 className="text-gray-00 p-8 pt-20 pl-24 text-5xl">Eco Store</h1>
 
-      <div className="py-4 pl-24">
+      <div className="flex gap-x-4 py-4 pl-24">
         <Link
           to="/products/tgdd"
           className="text-yellow-500 hover:text-yellow-600"
         >
           Eco Store ✕ Thế giới di động
+        </Link>
+        <Link
+          to="/products/3d"
+          className="text-yellow-500 hover:text-yellow-600"
+        >
+          Eco Store 3D (beta)
         </Link>
       </div>
 

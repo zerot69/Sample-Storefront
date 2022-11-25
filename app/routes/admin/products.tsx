@@ -10,7 +10,7 @@ import SearchBar from "~/components/searchbar";
 import { prisma } from "~/db.server";
 
 export async function loader({ request }: { request: any }) {
-  //Filter products with error
+  //Filter products with error and test products
   await prisma.products_crawl.updateMany({
     where: {
       OR: [
