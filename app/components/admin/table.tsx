@@ -3,7 +3,7 @@ import { Link } from "@remix-run/react";
 export default function Table({ orders, users }: { orders: any; users: any }) {
   return (
     <div className="grid grid-cols-4 gap-8">
-      <div className="col-span-2 mt-8 rounded-xl border bg-white p-4 text-justify shadow-md sm:p-8">
+      <div className="col-span-4 mt-8 rounded-xl border bg-white p-4 text-justify shadow-md sm:p-8 xl:col-span-2">
         <div className="flex flex-shrink-0 items-center justify-between ">
           <h1 className="text-lg uppercase text-gray-400">Orders</h1>
           <Link to="/admin/orders" className="">
@@ -97,7 +97,7 @@ export default function Table({ orders, users }: { orders: any; users: any }) {
         </div>
       </div>
 
-      <div className="col-span-2 mt-8 rounded-xl border bg-white p-4 text-justify shadow-md sm:p-8">
+      <div className="col-span-4 mt-8 rounded-xl border bg-white p-4 text-justify shadow-md sm:p-8 xl:col-span-2">
         <div className="flex flex-shrink-0 items-center justify-between ">
           <h1 className="text-lg uppercase text-gray-400">Users</h1>
           <Link to="/admin/users" className="">
