@@ -10,7 +10,7 @@ export default function Index() {
   const data = useLoaderData();
 
   return (
-    <main className="relative mb-60 min-h-max min-w-full items-center pt-16 sm:block sm:justify-center">
+    <main className="relative mb-60 max-h-fit min-h-max min-w-full items-center pt-16 sm:block sm:justify-center">
       <div className="relative w-full overflow-hidden">
         <div className="pt-16 pb-80 sm:pt-24 sm:pb-40 lg:pt-40 lg:pb-48">
           <div className="relative mx-auto max-w-7xl px-4 sm:static sm:px-6 lg:px-8">

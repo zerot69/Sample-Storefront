@@ -25,7 +25,7 @@ export default function Header() {
     },
   ];
   return (
-    <nav className="fixed top-0 left-0 z-20 flex w-full items-center justify-between border-b border-gray-200 bg-gray-100 bg-opacity-30 px-8 pt-2 shadow-md backdrop-blur-lg backdrop-filter dark:border-gray-600">
+    <nav className="fixed top-0 left-0 z-20 flex w-full items-center justify-between border-b bg-gray-100 bg-opacity-30 px-8 pt-2 pb-2 shadow-md backdrop-blur-lg backdrop-filter">
       {/* Site Logo */}
       <div className="font-mono text-3xl font-extrabold uppercase">
         <Link to="/">
