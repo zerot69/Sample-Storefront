@@ -115,7 +115,7 @@ export default function CheckoutRoute() {
                   />
                 </div>
                 <div>
-                  <label className="text-md font-semibold">Zipcode</label>
+                  <label className="text-md font-semibold">Zip Code</label>
                   <input
                     className="text-md mt-1 flex h-10 w-full items-center rounded border px-4"
                     type="text"

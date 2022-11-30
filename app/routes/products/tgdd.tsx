@@ -22,7 +22,9 @@ export async function loader({ request }: { request: any }) {
 }
 
 export default function ProductIndexPage() {
-  const products = useLoaderData();
+  const products = useLoaderData().sort(function (a: any, b: any) {
+    return Math.random() - 0.5;
+  });
 
   const handleAddToCart = (
     id: string,

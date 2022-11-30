@@ -1,14 +1,6 @@
-import { Form, useNavigate, useSearchParams } from "@remix-run/react";
+import { Form } from "@remix-run/react";
 
 export default function SearchBar() {
-  const navigate = useNavigate();
-  let [searchParams] = useSearchParams();
-
-  const clearFilters = () => {
-    searchParams.delete("filter");
-    navigate("/home");
-  };
-
   return (
     <div className="grid w-full place-items-center">
       <Form className="w-2/3">
@@ -40,7 +32,7 @@ export default function SearchBar() {
             type="text"
             name="search"
             id="search-bar"
-            className="block w-full rounded-lg border border-gray-300 bg-gray-50 p-4 pl-10 text-sm text-gray-900"
+            className="block w-full rounded-lg border border-gray-300 bg-white p-4 pl-10 text-sm text-gray-900 shadow-md"
             placeholder="Search anything..."
             required
             autoComplete="off"
@@ -51,14 +43,6 @@ export default function SearchBar() {
           >
             Search
           </button>
-          {searchParams.get("filter") && (
-            <button
-              onClick={clearFilters}
-              className="rounded-xl bg-red-300 px-3 py-2 font-semibold text-blue-600 transition duration-300 ease-in-out hover:-translate-y-1 hover:bg-yellow-400"
-            >
-              Clear Filters
-            </button>
-          )}
         </div>
       </Form>
     </div>

@@ -9,12 +9,16 @@ export async function loader({ request }: { request: any }) {
   return await fetch(
     searchData
       ? `https://635739669243cf412f94ec88.mockapi.io/Products?search=${searchData}`
-      : `https://635739669243cf412f94ec88.mockapi.io/Products?page=1&limit=20`
+      : `https://635739669243cf412f94ec88.mockapi.io/Products`
   );
 }
 
 export default function ProductIndexPage() {
-  const products = useLoaderData();
+  const products = useLoaderData()
+    .sort(function (a: any, b: any) {
+      return Math.random() - 0.5;
+    })
+    .slice(0, 20);
 
   const handleAddToCart = (
     id: string,

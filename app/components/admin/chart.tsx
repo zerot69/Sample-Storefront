@@ -4,12 +4,12 @@ import "chart.js/auto";
 
 export default function Chart() {
   // Date
-  var curr = new Date();
-  var first = curr.getDate() - curr.getDay() - 6; // Monday of last week
-  var last = first + 6; // Sunday of last week
-  var firstDay = new Date(curr.setDate(first)).toLocaleDateString();
-  var lastDay = new Date(curr.setDate(last)).toLocaleDateString();
-  var year = curr.getFullYear().toString();
+  const date = new Date();
+  const lastMonday = date.getDate() - date.getDay() - 6; // Monday of last week
+  const lastSunday = lastMonday + 6; // Sunday of last week
+  const firstDay = new Date(date.setDate(lastMonday)).toLocaleDateString();
+  const lastDay = new Date(date.setDate(lastSunday)).toLocaleDateString();
+  const currentYear = date.getFullYear().toString();
 
   //Month
   const month = [
@@ -36,37 +36,37 @@ export default function Chart() {
     29840,
   ];
   const cost = [
-    24435, 22345, 23495, 24896, 23456, 45623, 34567, 61231, 52356, 41325, 42213,
-    36498,
+    -24435, -22345, -23495, -24896, -23456, -45623, -34567, -61231, -52356,
+    -41325, -42213, -36498,
   ];
   const profit = revenue.map(function (revenue, idx) {
-    return revenue - cost[idx];
+    return revenue + cost[idx];
   });
   const weeklyUsers = [52670, 73490, 78409, 43367, 65986, 60954, 92345];
 
   return (
     <div className="mt-8 grid grid-cols-4 gap-8">
       <div className="col-span-4 rounded-xl border bg-white p-4 text-justify shadow-md sm:p-8 lg:col-span-4 xl:col-span-3">
-        <h1 className="text-lg uppercase text-gray-400">Monthly Revenue</h1>
+        <h1 className="text-lg uppercase text-gray-400">Monthly Profit</h1>
         <Bar
           data={{
             labels: month,
             datasets: [
               {
                 label: "Revenue",
-                backgroundColor: ["#eab308"],
+                backgroundColor: ["#4ade80"],
                 data: revenue,
                 stack: "Stack 0",
               },
               {
                 label: "Cost",
-                backgroundColor: ["#facc15"],
+                backgroundColor: ["#f87171"],
                 data: cost,
-                stack: "Stack 1",
+                stack: "Stack 0",
               },
               {
                 label: "Profit",
-                backgroundColor: ["#fde047"],
+                backgroundColor: ["#facc15"],
                 data: profit,
                 stack: "Stack 1",
               },
@@ -88,14 +88,14 @@ export default function Chart() {
               },
               title: {
                 display: true,
-                text: year,
+                text: currentYear,
               },
             },
           }}
         />
       </div>
       <div className="col-span-4 rounded-xl border bg-white p-4 text-justify shadow-md sm:p-8 xl:col-span-1">
-        <h1 className="text-lg uppercase text-gray-400">Weekly active users</h1>
+        <h1 className="text-lg uppercase text-gray-400">Daily active users</h1>
         <Bar
           data={{
             labels: weekdays,
