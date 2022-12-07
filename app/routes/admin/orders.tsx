@@ -40,7 +40,9 @@ export async function loader({ request }: { request: Request }) {
         ],
         created_at: {
           gte: new Date(
-            new Date().setDate(new Date().getDate() - new Date().getDay())
+            new Date(
+              new Date().setDate(new Date().getDate() - new Date().getDay() + 1)
+            ).setUTCHours(0, 0, 0, 0)
           ),
         },
       },
@@ -57,10 +59,14 @@ export async function loader({ request }: { request: Request }) {
         ],
         created_at: {
           gte: new Date(
-            new Date().setDate(new Date().getDate() - new Date().getDay() - 6)
+            new Date(
+              new Date().setDate(new Date().getDate() - new Date().getDay() - 6)
+            ).setUTCHours(0, 0, 0, 0)
           ),
-          lte: new Date(
-            new Date().setDate(new Date().getDate() - new Date().getDay() - 1)
+          lt: new Date(
+            new Date(
+              new Date().setDate(new Date().getDate() - new Date().getDay() + 1)
+            ).setUTCHours(0, 0, 0, 0)
           ),
         },
       },
@@ -77,10 +83,16 @@ export async function loader({ request }: { request: Request }) {
         ],
         created_at: {
           gte: new Date(
-            new Date().setDate(new Date().getDate() - new Date().getDay() - 13)
+            new Date(
+              new Date().setDate(
+                new Date().getDate() - new Date().getDay() - 13
+              )
+            ).setUTCHours(0, 0, 0, 0)
           ),
-          lte: new Date(
-            new Date().setDate(new Date().getDate() - new Date().getDay() - 7)
+          lt: new Date(
+            new Date(
+              new Date().setDate(new Date().getDate() - new Date().getDay() - 6)
+            ).setUTCHours(0, 0, 0, 0)
           ),
         },
       },
@@ -436,7 +448,7 @@ export default function AdminOrdersRoute() {
               {orders.map((order: any) => (
                 <tr
                   key={order.id}
-                  className="border-b bg-white hover:bg-gray-100"
+                  className="border-b bg-white odd:bg-white even:bg-gray-50 hover:bg-gray-100"
                 >
                   <td className="whitespace-nowrap py-4 px-6">
                     <Form action="/admin/orders" method="post">

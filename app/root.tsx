@@ -66,7 +66,6 @@ export function ErrorBoundary({ error }: { error: any }) {
             You can still find plenty of other things on our website.
           </p>
           <Link
-            rel="noopener noreferrer"
             to="/"
             className="rounded bg-yellow-400 px-8 py-3 font-semibold text-white hover:bg-yellow-500"
           >

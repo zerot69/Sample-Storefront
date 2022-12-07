@@ -399,7 +399,7 @@ export default function AdminUsersRoute() {
               {users.map((user: any) => (
                 <tr
                   key={user.id}
-                  className="border-b bg-white hover:bg-gray-100"
+                  className="border-b bg-white odd:bg-white even:bg-gray-50 hover:bg-gray-100"
                 >
                   <td className="whitespace-nowrap py-4 px-6">
                     <button

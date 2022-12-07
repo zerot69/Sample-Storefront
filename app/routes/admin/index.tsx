@@ -7,34 +7,48 @@ import AdminTable from "~/components/admin/table";
 import { prisma } from "~/db.server";
 
 export async function loader() {
-  const usersThisWeek = await prisma.users.count({
+  const numberUsersThisWeek = await prisma.users.count({
     where: {
       created_at: {
-        gte: new Date(new Date().setHours(0, 0, 0, 0) - 86400000 * 7),
+        gte: new Date(
+          new Date(
+            new Date().setDate(new Date().getDate() - new Date().getDay() + 1)
+          ).setUTCHours(0, 0, 0, 0)
+        ),
       },
     },
   });
-  const userLastWeek = await prisma.users.count({
+  const usersLastWeek = await prisma.users.findMany({
     where: {
       created_at: {
-        gte: new Date(new Date().setHours(0, 0, 0, 0) - 86400000 * 14),
-        lt: new Date(new Date().setHours(0, 0, 0, 0) - 86400000 * 7),
+        gte: new Date(
+          new Date(
+            new Date().setDate(new Date().getDate() - new Date().getDay() - 6)
+          ).setUTCHours(0, 0, 0, 0)
+        ),
+        lt: new Date(
+          new Date(
+            new Date().setDate(new Date().getDate() - new Date().getDay() + 1)
+          ).setUTCHours(0, 0, 0, 0)
+        ),
       },
     },
   });
-  const newUsersRatio = ((usersThisWeek - userLastWeek) / userLastWeek) * 100;
+  const numberUsersLastWeek = usersLastWeek.length;
+  const newUsersRatio =
+    ((numberUsersThisWeek - numberUsersLastWeek) / numberUsersLastWeek) * 100;
   const ordersToday = await prisma.orders.count({
     where: {
       created_at: {
-        gte: new Date(new Date().setHours(0, 0, 0, 0)),
+        gte: new Date(new Date().setUTCHours(0, 0, 0, 0)),
       },
     },
   });
   const ordersYesterday = await prisma.orders.count({
     where: {
       created_at: {
-        gte: new Date(new Date().setHours(0, 0, 0, 0) - 86400000),
-        lt: new Date(new Date().setHours(0, 0, 0, 0)),
+        gte: new Date(new Date().setUTCHours(0, 0, 0, 0) - 86400000),
+        lt: new Date(new Date().setUTCHours(0, 0, 0, 0)),
       },
     },
   });
@@ -53,7 +67,8 @@ export async function loader() {
     },
   });
   return {
-    usersThisWeek: usersThisWeek,
+    usersThisWeek: numberUsersThisWeek,
+    usersLastWeek: usersLastWeek,
     newUsersRatio: newUsersRatio,
     ordersToday: ordersToday,
     newOrdersRatio: newOrdersRatio,
@@ -78,7 +93,7 @@ export default function AdminRoute() {
       />
       <AdminTable orders={data.orders} users={data.users} />
       <AdminLinks />
-      <AdminChart />
+      <AdminChart usersLastWeek={data.usersLastWeek} />
     </div>
   );
 }

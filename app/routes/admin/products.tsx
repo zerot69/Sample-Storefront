@@ -13,17 +13,33 @@ export async function loader({ request }: { request: any }) {
   //Filter products with error
   await prisma.products_crawl.updateMany({
     where: {
-      active: true,
-      price: 0,
-      base: 0,
+      OR: [
+        {
+          active: true,
+          price: 0,
+          base: 0,
+        },
+        {
+          active: true,
+          name: "test",
+          description: "test",
+        },
+      ],
     },
     data: {
       active: false,
     },
   });
 
+  // Delete test products
+  // await prisma.products_crawl.deleteMany({
+  //   where: {
+  //     name: "test",
+  //     description: "test",
+  //   },
+  // });
+
   const searchData = new URL(request.url).searchParams.get("search");
-  const sort = new URL(request.url).searchParams.get("sort") || "price";
   return {
     searchData: searchData,
     all: await prisma.products_crawl.findMany({
@@ -44,7 +60,7 @@ export async function loader({ request }: { request: any }) {
         ],
       },
       orderBy: {
-        price: "asc",
+        name: "asc",
       },
     }),
     mostExpensive: await prisma.products_crawl.findMany({
@@ -74,10 +90,9 @@ export async function loader({ request }: { request: any }) {
 
 export async function action({ request }: { request: any }) {
   const formData = await request.formData();
-  const productId = formData.get("productId");
   await prisma.products_crawl.delete({
     where: {
-      id: productId,
+      id: formData.get("productId"),
     },
   });
   return null;
@@ -319,6 +334,11 @@ export default function ProductIndexPage() {
       </div>
 
       <SearchBar />
+      <Link to="/admin/products/create">
+        <button className="rounded bg-yellow-400 py-2 px-4 font-bold text-white hover:bg-yellow-500">
+          Create new product
+        </button>
+      </Link>
       <div className="text-right text-yellow-400 hover:text-yellow-500">
         {searchData && (
           <Link to={"/admin/products"}>
@@ -434,7 +454,7 @@ export default function ProductIndexPage() {
               {products.map((product: any) => (
                 <tr
                   key={product.id}
-                  className="border-b bg-white hover:bg-gray-100"
+                  className="border-b bg-white odd:bg-white even:bg-gray-50 hover:bg-gray-100"
                 >
                   <td className="whitespace-nowrap py-4 px-6">
                     {product.active ? (

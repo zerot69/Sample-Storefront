@@ -32,7 +32,7 @@ export default function SearchBar() {
             type="text"
             name="search"
             id="search-bar"
-            className="block w-full rounded-lg border border-gray-300 bg-white p-4 pl-10 text-sm text-gray-900 shadow-md"
+            className="block w-full rounded-lg border border-gray-300 bg-white p-4 pl-10 text-sm text-gray-900 shadow-md focus:border-yellow-400"
             placeholder="Search anything..."
             required
             autoComplete="off"

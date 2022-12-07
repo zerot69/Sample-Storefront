@@ -1,8 +1,9 @@
-import { Bar, Line } from "react-chartjs-2";
+import { useMemo } from "react";
+import { Bar } from "react-chartjs-2";
 
 import "chart.js/auto";
 
-export default function Chart() {
+export default function Chart({ usersLastWeek }: { usersLastWeek: any }) {
   // Date
   const date = new Date();
   const lastMonday = date.getDate() - date.getDay() - 6; // Monday of last week
@@ -31,18 +32,49 @@ export default function Chart() {
   const weekdays = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
 
   // Data
-  const revenue = [
-    44780, 32670, 43490, 54409, 33367, 35986, 40954, 52345, 34983, 57812, 21933,
-    29840,
-  ];
-  const cost = [
-    -24435, -22345, -23495, -24896, -23456, -45623, -34567, -61231, -52356,
-    -41325, -42213, -36498,
-  ];
-  const profit = revenue.map(function (revenue, idx) {
-    return revenue + cost[idx];
+  const revenue = useMemo(() => {
+    const revenue = [];
+    for (let i = 0; i < 12; i++) {
+      revenue.push(
+        Math.floor(Math.random() * (10000000 - 1000000 + 1) + 1000000)
+      );
+    }
+    return revenue;
+  }, []);
+
+  const cost = useMemo(() => {
+    const cost = [];
+    for (let i = 0; i < 12; i++) {
+      cost.push(
+        Math.floor(Math.random() * (10000000 - 1000000 + 1) + 1000000) * -1
+      );
+    }
+    return cost;
+  }, []);
+
+  const profit = revenue.map(function (revenue, index) {
+    return revenue + cost[index];
   });
-  const weeklyUsers = [52670, 73490, 78409, 43367, 65986, 60954, 92345];
+  const weeklyActiveUsers = useMemo(() => {
+    const weeklyActiveUsers = [];
+    for (let i = 0; i < 7; i++) {
+      weeklyActiveUsers.push(Math.floor(Math.random() * (100 - 10 + 1) + 10));
+    }
+    return weeklyActiveUsers;
+  }, []);
+
+  const usersLastWeekArray = Array(7).fill(0);
+  usersLastWeek.map(
+    (user: any) =>
+      usersLastWeekArray[
+        new Date(user.created_at).getDay()
+          ? new Date(user.created_at).getDay() - 1
+          : 6
+      ]++
+  );
+  const totalRevenue = revenue.reduce((a, b) => a + b, 0);
+  const totalCost = cost.reduce((a, b) => a + b, 0);
+  const totalProfit = totalRevenue + totalCost;
 
   return (
     <div className="mt-8 grid grid-cols-4 gap-8">
@@ -93,6 +125,30 @@ export default function Chart() {
             },
           }}
         />
+        <p className="mt-6 text-center text-sm">
+          <span>
+            <span className="font-bold text-green-500">Revenue: </span>
+            <span className="font-semibold">
+              {totalRevenue.toLocaleString()}đ
+            </span>
+          </span>
+          <span className="ml-4">
+            <span className="font-bold text-red-500">Cost: </span>
+            <span className="font-semibold">{totalCost.toLocaleString()}đ</span>
+          </span>
+          <span className="ml-4">
+            <span className="font-bold text-yellow-500">Profit: </span>
+            {totalProfit > 0 ? (
+              <span className="font-semibold text-green-500">
+                +{totalProfit.toLocaleString()}đ
+              </span>
+            ) : (
+              <span className="font-semibold text-red-500">
+                {totalProfit.toLocaleString()}đ
+              </span>
+            )}
+          </span>
+        </p>
       </div>
       <div className="col-span-4 rounded-xl border bg-white p-4 text-justify shadow-md sm:p-8 xl:col-span-1">
         <h1 className="text-lg uppercase text-gray-400">Daily active users</h1>
@@ -101,9 +157,14 @@ export default function Chart() {
             labels: weekdays,
             datasets: [
               {
-                label: "Users",
+                label: "Active",
                 backgroundColor: ["#facc15"],
-                data: weeklyUsers,
+                data: weeklyActiveUsers,
+              },
+              {
+                label: "New",
+                backgroundColor: ["#fef08a"],
+                data: usersLastWeekArray,
               },
             ],
           }}
@@ -116,6 +177,14 @@ export default function Chart() {
               title: {
                 display: true,
                 text: firstDay + " - " + lastDay,
+              },
+            },
+            scales: {
+              x: {
+                stacked: true,
+              },
+              y: {
+                stacked: true,
               },
             },
           }}

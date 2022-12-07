@@ -15,7 +15,7 @@ export default function ProductReviewsRoute() {
       <div className="grid items-baseline md:grid-cols-2">
         <div>
           <img
-            className="m-16 aspect-square h-4/5 w-4/5 justify-center overflow-hidden rounded-2xl object-cover object-center shadow-xl hover:border-yellow-500"
+            className="m-16 aspect-square h-4/5 w-4/5 transform justify-center overflow-hidden rounded-2xl bg-white object-scale-down object-center shadow-xl transition duration-500 ease-in-out hover:-translate-y-1 hover:shadow-2xl"
             src={product.image}
             alt={product.shortDesc}
           />
