@@ -1,20 +1,34 @@
+import { useEffect, useMemo, useState } from "react";
 import toast, { Toaster } from "react-hot-toast";
+import { FaArrowCircleUp } from "react-icons/fa";
 import { Link, useLoaderData } from "@remix-run/react";
+import { useSearchParams } from "@remix-run/react";
 
 import Pagination from "~/components/pagination";
 import SearchBar from "~/components/searchbar";
 
 export async function loader({ request }: { request: any }) {
   const searchData = new URL(request.url).searchParams.get("search");
-  return await fetch(
+  const products = await fetch(
     searchData
       ? `https://635739669243cf412f94ec88.mockapi.io/Products?search=${searchData}`
-      : `https://635739669243cf412f94ec88.mockapi.io/Products?page=1&limit=20`
+      : `https://635739669243cf412f94ec88.mockapi.io/Products`
   );
+  return products.json();
 }
 
 export default function ProductIndexPage() {
-  const products = useLoaderData();
+  const [maxItems, setMaxItems] = useState(20);
+  const [searchParams] = useSearchParams();
+  const searchData = searchParams.get("search");
+  const random = useMemo(() => Math.random() - 0.5, []);
+  const data = useLoaderData().sort(function (a: any, b: any) {
+    return random;
+  });
+  const [products, setProducts] = useState(data.slice(0, maxItems));
+  useEffect(() => {
+    setProducts(data.slice(0, maxItems));
+  }, [maxItems, data]);
 
   const handleAddToCart = (
     id: string,
@@ -45,6 +59,26 @@ export default function ProductIndexPage() {
     localStorage.setItem("cart", JSON.stringify(currentCart));
   };
 
+  const [visible, setVisible] = useState(false);
+
+  if (typeof window !== "undefined") {
+    const toggleVisible = () => {
+      const scrollTop = document.documentElement.scrollTop;
+      if (scrollTop > 300) {
+        setVisible(true);
+      } else if (scrollTop <= 300) {
+        setVisible(false);
+      }
+      const scrollHeight = document.documentElement.scrollHeight;
+      const clientHeight = document.documentElement.clientHeight;
+      if (scrollTop + clientHeight >= scrollHeight) {
+        setMaxItems(maxItems + 20);
+      }
+    };
+
+    window.addEventListener("scroll", toggleVisible);
+  }
+
   return (
     <div className="mt-8 w-full pb-40">
       <h1 className="text-gray-00 p-8 pt-20 pl-24 text-5xl">Eco Store</h1>
@@ -59,7 +93,7 @@ export default function ProductIndexPage() {
       </div>
 
       <SearchBar />
-      <Pagination />
+      {searchData && <Pagination />}
 
       {products.length === 0 ? (
         <h2 className="w-full pt-20 text-center">
@@ -69,11 +103,11 @@ export default function ProductIndexPage() {
         <div className="mt-8 grid grid-cols-1 justify-items-center px-4 md:grid-cols-2 md:px-12 lg:grid-cols-3 lg:px-6 xl:gap-6 xl:px-4 2xl:grid-cols-4 2xl:gap-6 2xl:px-24">
           {products.map((product: any) => (
             <div key={product.id}>
-              <section className="w-80 overflow-hidden rounded-lg bg-white shadow-md hover:shadow-lg">
+              <section className="w-80 overflow-hidden rounded-lg bg-white shadow-lg transition duration-500 ease-in-out hover:-translate-y-1 hover:shadow-xl ">
                 <Link to={`/products/${product.id}`} prefetch="intent">
                   <div className="overflow-hidden">
                     <img
-                      className="h-80 w-80 object-cover object-center duration-300 hover:scale-110 lg:h-80 lg:w-80"
+                      className="h-80 w-80 object-cover object-center duration-500 hover:scale-110 lg:h-80 lg:w-80"
                       src={product.image}
                       alt={product.shortDesc}
                     />
@@ -113,6 +147,19 @@ export default function ProductIndexPage() {
         </div>
       )}
 
+      <button className="rounded-full shadow-lg transition duration-500 ease-in-out hover:shadow-xl">
+        <FaArrowCircleUp
+          onClick={() => {
+            window.scrollTo({
+              top: 0,
+              behavior: "smooth",
+            });
+          }}
+          className={`fixed bottom-5 right-5 text-5xl text-gray-400/20 ${
+            visible ? "inline" : "hidden"
+          }`}
+        />
+      </button>
       <Toaster
         position="bottom-right"
         toastOptions={{

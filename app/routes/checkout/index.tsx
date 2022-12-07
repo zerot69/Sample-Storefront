@@ -45,7 +45,7 @@ export default function CheckoutRoute() {
       <Form
         method="post"
         action="/checkout/confirmation"
-        className="grid w-full  max-w-screen-2xl items-baseline gap-12 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3"
+        className="grid w-full max-w-screen-2xl items-baseline gap-12 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3"
       >
         <div className="lg:col-span-2">
           <h2 className="text-lg font-medium">Customer Information</h2>
@@ -115,7 +115,7 @@ export default function CheckoutRoute() {
                   />
                 </div>
                 <div>
-                  <label className="text-md font-semibold">Zipcode</label>
+                  <label className="text-md font-semibold">Zip Code</label>
                   <input
                     className="text-md mt-1 flex h-10 w-full items-center rounded border px-4"
                     type="text"
