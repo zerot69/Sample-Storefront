@@ -1,22 +1,13 @@
-import type {
-  ActionArgs,
-  ActionFunction,
-  LoaderArgs,
-  MetaFunction,
-} from "@remix-run/node";
-import { json, redirect } from "@remix-run/node";
-import { Form, Link, useActionData, useSearchParams } from "@remix-run/react";
 import * as React from "react";
+import type { ActionArgs, LoaderArgs, MetaFunction } from "@remix-run/node";
+import { json } from "@remix-run/node";
+import { Form, Link, useActionData, useSearchParams } from "@remix-run/react";
 
-import { createUserSession, getUserId } from "~/session.server";
-import { verifyLogin } from "~/models/user.server";
+import { createUserSession } from "~/session.server";
 import { safeRedirect, validateEmail } from "~/utils";
-import { createServerClient } from "@supabase/auth-helpers-remix";
 
 export async function loader({ request }: LoaderArgs) {
-  const userId = await getUserId(request);
-  if (userId) return redirect("/");
-  return json({});
+  throw new Error("haha");
 }
 
 export async function action({ request }: ActionArgs) {
@@ -47,26 +38,6 @@ export async function action({ request }: ActionArgs) {
     );
   }
 
-  const response = new Response();
-  const supabaseClient = createServerClient(
-    process.env.SUPABASE_URL!,
-    process.env.SUPABASE_ANON_KEY!,
-    { request, response }
-  );
-  const { data, error }: { data: any; error: any } =
-    await supabaseClient.auth.signInWithPassword({
-      email,
-      password,
-    });
-  console.log({ data, error });
-
-  if (!data) {
-    return json(
-      { errors: { email: "Invalid email or password", password: null } },
-      { status: 400 }
-    );
-  }
-
   return createUserSession({
     request,
     userId: data.session.access_token.toString(),
@@ -83,7 +54,6 @@ export const meta: MetaFunction = () => {
 
 export default function LoginPage() {
   const [searchParams] = useSearchParams();
-  const redirectTo = searchParams.get("redirectTo") || "/";
   const actionData = useActionData<typeof action>();
   const emailRef = React.useRef<HTMLInputElement>(null);
   const passwordRef = React.useRef<HTMLInputElement>(null);
@@ -157,7 +127,7 @@ export default function LoginPage() {
             </div>
           </div>
 
-          <input type="hidden" name="redirectTo" value={redirectTo} />
+          {/* <input type="hidden" name="redirectTo" value={redirectTo} /> */}
           <button
             type="submit"
             className="w-full rounded bg-yellow-400  py-2 px-4 text-white hover:bg-yellow-500 focus:bg-yellow-300"

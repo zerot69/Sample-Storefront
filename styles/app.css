@@ -2,20 +2,13 @@
 @tailwind components;
 @tailwind utilities;
 
-/*
-Layout styling
-*/
-html {
+/* html {
   @apply bg-gray-100 font-sans text-gray-800 antialiased;
 }
 
 body {
   @apply flex min-h-screen flex-col overflow-x-hidden;
 }
-
-/*
- Typography styling
- */
 
 h1 {
   @apply text-3xl font-bold;
@@ -29,18 +22,14 @@ p {
   @apply text-gray-700;
 }
 
-/*
- Navigation menu styling
- */
-
 nav {
   @apply top-0 left-0 z-20 w-full border-none bg-yellow-400 px-2 py-2.5 sm:px-4;
 }
 
 .navlink {
-  @apply inline-block w-20 py-3 text-center align-middle font-semibold text-gray-600 hover:text-gray-50;
+  @apply inline-block w-20 py-3.5 text-center align-middle font-semibold text-gray-600 hover:text-gray-50;
 }
 
 a.active {
   @apply font-extrabold text-gray-700;
-}
+} */

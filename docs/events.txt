@@ -1,0 +1,5 @@
+server	before Load
+client	init Page
+client	before submit
+anthor client	even base
+server	before submit

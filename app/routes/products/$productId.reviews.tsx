@@ -1,5 +1,4 @@
 import { Link, useLoaderData } from "@remix-run/react";
-import React from "react";
 
 export const loader = async ({ params }: { params: any }) => {
   const product = await fetch(
@@ -8,26 +7,29 @@ export const loader = async ({ params }: { params: any }) => {
   return await product.json();
 };
 
-export default function ProductRoute() {
+export default function ProductReviewsRoute() {
   const product = useLoaderData();
 
   return (
     <div className="w-full pt-16">
-      <div className="grid items-baseline md:grid-cols-2">
+      <div className="grid items-start md:grid-cols-2">
         <div>
           <img
-            className="m-16 aspect-square h-4/5 w-4/5 justify-center overflow-hidden rounded-2xl object-cover object-center shadow-xl hover:border-yellow-500"
+            className="m-16 aspect-square h-4/5 w-4/5 transform justify-center overflow-hidden rounded-2xl bg-white object-scale-down object-center shadow-xl transition duration-500 ease-in-out hover:-translate-y-1 hover:shadow-2xl"
             src={product.image}
             alt={product.shortDesc}
           />
         </div>
         <div className="flex flex-col space-y-6 pb-4 pl-6 pr-20 pt-20">
           <h6>
-            <Link to="/" className="font-semibold text-yellow-500">
-              Home
+            <Link to="/products" className="font-semibold text-yellow-500">
+              Products
             </Link>{" "}
             /{" "}
-            <Link to="" className="font-semibold">
+            <Link
+              to={`/category/${product.category}`}
+              className="font-semibold"
+            >
               {product.category}{" "}
             </Link>{" "}
             /{" "}
@@ -37,7 +39,9 @@ export default function ProductRoute() {
             / Reviews
           </h6>
           <h1 className="text-3xl font-semibold text-gray-800">
-            {product.name}{" "}
+            <Link to={`/products/${product.id}`} className="font-semibold">
+              {product.name}
+            </Link>
           </h1>
           {product.reviews.length === 0 ? (
             <p>There is no comments for this product.</p>
