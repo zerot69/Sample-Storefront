@@ -1,4 +1,4 @@
-# Finviet Storefront
+# Storefront
 
 ![index](https://github.com/zerot69/Sample-Storefront/assets/55183414/eb4bed41-12df-43bd-b3f2-4f6bffb9b9c0)
 
